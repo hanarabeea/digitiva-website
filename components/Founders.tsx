@@ -7,24 +7,18 @@ const founders = [
     name: "Hana Rabeea",
     role: "Co-founder · CEO",
     focus: "Strategy & Brand",
-    initials: "HR",
-    bio: "Drives the vision, brand voice, and creative direction. Obsessed with turning ambition into pixel-perfect product.",
     accent: "#3B82F6",
   },
   {
     name: "Rawan Amr",
     role: "Co-founder · CEO",
     focus: "Design & Experience",
-    initials: "RA",
-    bio: "Leads design systems, motion, and the relentless pursuit of interfaces that feel inevitable.",
     accent: "#10B981",
   },
   {
     name: "Zeyad Abo Eleneen",
     role: "Co-founder · CEO",
     focus: "Engineering & Platform",
-    initials: "ZA",
-    bio: "Architects the engineering backbone — scalable systems, fast products, reliable launches.",
     accent: "#8B5CF6",
   },
 ];
@@ -35,103 +29,94 @@ function Card({ f, i }: { f: typeof founders[0]; i: number }) {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["8%", "-8%"]);
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.25 }}
       transition={{ duration: 0.9, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
       style={{ y }}
       className="group relative"
+      data-cursor-hover
     >
       <div
-        className="relative rounded-3xl border border-app bg-app-card overflow-hidden p-7 md:p-8 h-full"
-        style={{
-          background:
-            "linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elevated) 100%)",
-        }}
+        className="relative rounded-3xl border border-app bg-app-card overflow-hidden p-8 md:p-10 h-full transition-colors duration-500"
+        style={{ background: "linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elevated) 100%)" }}
       >
         {/* Accent glow */}
         <div
           aria-hidden
-          className="absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-40 group-hover:opacity-70 transition-opacity duration-500"
+          className="absolute -top-32 -right-32 w-72 h-72 rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-700"
           style={{
-            background: `radial-gradient(circle, ${f.accent}40 0%, transparent 70%)`,
-            filter: "blur(40px)",
+            background: `radial-gradient(circle, ${f.accent}55 0%, transparent 70%)`,
+            filter: "blur(50px)",
           }}
         />
 
-        {/* Typographic portrait — initials as huge letterform */}
-        <div
-          className="relative aspect-square rounded-2xl mb-7 overflow-hidden flex items-center justify-center border border-app"
-          style={{
-            background: `linear-gradient(135deg, ${f.accent}22, transparent 80%), var(--bg-deep)`,
-          }}
-        >
-          {/* Grid bg */}
-          <div className="absolute inset-0 grid-bg opacity-40" />
-
-          {/* Big initials */}
-          <motion.span
-            className="relative font-space font-bold"
-            style={{
-              fontSize: "clamp(6rem, 14vw, 11rem)",
-              letterSpacing: "-0.05em",
-              lineHeight: 1,
-              color: f.accent,
-              textShadow: `0 0 60px ${f.accent}66`,
-            }}
-            initial={{ scale: 0.9, opacity: 0 }}
-            whileInView={{ scale: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: i * 0.12 + 0.2 }}
-          >
-            {f.initials}
-          </motion.span>
-
-          {/* Orbital ring */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-            className="absolute w-[140%] h-[140%] rounded-full border opacity-30"
-            style={{ borderColor: f.accent }}
-          />
-
-          {/* Pulse dot */}
+        {/* Number + accent bar */}
+        <div className="flex items-center gap-4 mb-10">
           <span
-            className="absolute top-4 right-4 w-2 h-2 rounded-full animate-pulse"
-            style={{ background: f.accent }}
-          />
-
-          {/* Focus tag */}
-          <div
-            className="absolute bottom-4 left-4 px-2.5 py-1 rounded-full text-[9px] tracking-[0.25em] uppercase font-medium border backdrop-blur-md"
-            style={{
-              color: f.accent,
-              borderColor: `${f.accent}55`,
-              background: `${f.accent}12`,
-            }}
-          >
-            {f.focus}
-          </div>
-        </div>
-
-        {/* Name + role */}
-        <div className="relative">
-          <h3 className="font-space font-bold text-app text-2xl md:text-3xl tracking-tight mb-1.5">
-            {f.name}
-          </h3>
-          <p
-            className="text-xs tracking-[0.25em] uppercase mb-4"
+            className="font-space font-bold text-sm"
             style={{ color: f.accent }}
           >
-            {f.role}
-          </p>
-          <p className="text-app-muted text-sm leading-relaxed">{f.bio}</p>
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <span
+            className="h-px flex-1 transition-all duration-500 group-hover:h-[2px]"
+            style={{
+              background: `linear-gradient(to right, ${f.accent}, transparent)`,
+            }}
+          />
+          <span
+            className="w-2 h-2 rounded-full animate-pulse"
+            style={{ background: f.accent, boxShadow: `0 0 12px ${f.accent}` }}
+          />
         </div>
+
+        {/* Name */}
+        <h3
+          className="font-space font-bold text-app mb-4"
+          style={{
+            fontSize: "clamp(1.8rem, 3.2vw, 2.6rem)",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.05,
+          }}
+        >
+          {f.name}
+        </h3>
+
+        {/* Role */}
+        <p
+          className="font-space text-sm tracking-[0.2em] uppercase mb-6"
+          style={{ color: f.accent }}
+        >
+          {f.role}
+        </p>
+
+        {/* Focus tag */}
+        <div
+          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-medium border backdrop-blur-md"
+          style={{
+            color: f.accent,
+            borderColor: `${f.accent}40`,
+            background: `${f.accent}10`,
+          }}
+        >
+          <span className="w-1 h-1 rounded-full" style={{ background: f.accent }} />
+          {f.focus}
+        </div>
+
+        {/* Bottom accent line */}
+        <div
+          className="absolute bottom-0 left-0 h-[2px] transition-all duration-700 group-hover:w-full"
+          style={{
+            width: "0%",
+            background: `linear-gradient(to right, ${f.accent}, transparent)`,
+          }}
+        />
       </div>
     </motion.div>
   );

@@ -13,10 +13,6 @@ export default function Preloader() {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    if (sessionStorage.getItem("dgtv-loaded")) {
-      setVisible(false);
-      return;
-    }
     let current = 0;
     const interval = setInterval(() => {
       const jump = Math.floor(Math.random() * 9) + 5;
@@ -24,15 +20,11 @@ export default function Preloader() {
       setCount(current);
       if (current >= 100) {
         clearInterval(interval);
-        // Brief hold, then BOOM
         setTimeout(() => setStage("booming"), 320);
-        // After boom animation, clip-up exit
         setTimeout(() => setStage("exiting"), 320 + 1100);
-        // After exit animation, remove
         setTimeout(() => {
           setStage("done");
           setVisible(false);
-          sessionStorage.setItem("dgtv-loaded", "1");
         }, 320 + 1100 + 1000);
       }
     }, 34);
@@ -65,44 +57,24 @@ export default function Preloader() {
           {/* Grid */}
           <div className="absolute inset-0 grid-bg opacity-25 pointer-events-none" />
 
-          {/* Rotating orbital rings — accelerate on boom */}
-          <motion.div
-            animate={{ rotate: isBoom ? 1440 : 360 }}
-            transition={{
-              duration: isBoom ? 1.1 : 14,
-              repeat: isBoom ? 0 : Infinity,
-              ease: isBoom ? [0.16, 1, 0.3, 1] : "linear",
-            }}
-            className="absolute w-[700px] h-[700px] rounded-full border border-white/[0.05]"
+          {/* CSS-driven orbital rings — smooth GPU rotation */}
+          <div
+            className={`absolute w-[700px] h-[700px] rounded-full border border-white/[0.05] ${
+              isBoom ? "opacity-0 scale-[3] transition-all duration-1000 ease-out" : "spin-fast"
+            }`}
           />
-          <motion.div
-            animate={{
-              rotate: isBoom ? -1440 : -360,
-              scale: isBoom ? 3 : 1,
-              opacity: isBoom ? 0 : 1,
-            }}
-            transition={{
-              duration: isBoom ? 1.1 : 22,
-              repeat: isBoom ? 0 : Infinity,
-              ease: isBoom ? [0.16, 1, 0.3, 1] : "linear",
-            }}
-            className="absolute w-[520px] h-[520px] rounded-full border border-[#3B82F6]/30"
+          <div
+            className={`absolute w-[520px] h-[520px] rounded-full border border-[#3B82F6]/30 ${
+              isBoom ? "opacity-0 scale-[3.5] transition-all duration-1000 ease-out" : "spin-med"
+            }`}
           />
-          <motion.div
-            animate={{
-              rotate: isBoom ? 1440 : 360,
-              scale: isBoom ? 4 : 1,
-              opacity: isBoom ? 0 : 1,
-            }}
-            transition={{
-              duration: isBoom ? 1.1 : 30,
-              repeat: isBoom ? 0 : Infinity,
-              ease: isBoom ? [0.16, 1, 0.3, 1] : "linear",
-            }}
-            className="absolute w-[340px] h-[340px] rounded-full border border-[#10B981]/30"
+          <div
+            className={`absolute w-[340px] h-[340px] rounded-full border border-[#10B981]/30 ${
+              isBoom ? "opacity-0 scale-[4] transition-all duration-1000 ease-out" : "spin-slow"
+            }`}
           />
 
-          {/* Glow that expands and flashes on boom */}
+          {/* Glow */}
           <motion.div
             className="absolute pointer-events-none"
             animate={{
@@ -120,60 +92,37 @@ export default function Preloader() {
             }}
           />
 
-          {/* WHITE FLASH at peak of boom */}
+          {/* White flash */}
           <motion.div
             aria-hidden
             className="absolute inset-0 bg-white pointer-events-none"
             initial={{ opacity: 0 }}
-            animate={{
-              opacity:
-                stage === "booming" || stage === "exiting" ? [0, 0, 0.85, 0] : 0,
-            }}
-            transition={{
-              duration: 1.1,
-              times: [0, 0.55, 0.7, 1],
-              ease: "easeOut",
-            }}
+            animate={{ opacity: isBoom ? [0, 0, 0.85, 0] : 0 }}
+            transition={{ duration: 1.1, times: [0, 0.55, 0.7, 1], ease: "easeOut" }}
           />
 
-          {/* Center: spinning logo + forming letters that BOOM */}
+          {/* Center content */}
           <motion.div
             className="relative flex flex-col items-center gap-6 z-10"
             animate={
               isBoom
-                ? {
-                    scale: [1, 1.25, 8],
-                    rotate: [0, 180, 540],
-                    opacity: [1, 1, 0],
-                  }
+                ? { scale: [1, 1.25, 8], rotate: [0, 180, 540], opacity: [1, 1, 0] }
                 : {}
             }
-            transition={{
-              duration: 1.1,
-              times: [0, 0.4, 1],
-              ease: [0.7, 0, 0.84, 0],
-            }}
+            transition={{ duration: 1.1, times: [0, 0.4, 1], ease: [0.7, 0, 0.84, 0] }}
             style={{ perspective: 1200 }}
           >
-            <motion.div
-              initial={{ scale: 0.2, rotate: 0, opacity: 0 }}
-              animate={{
-                scale: [0.2, 1.15, 1],
-                rotate: [0, 720, 720],
-                opacity: [0, 1, 1],
-              }}
-              transition={{ duration: 1.4, times: [0, 0.7, 1], ease: [0.16, 1, 0.3, 1] }}
-              className="w-20 h-20 relative"
-            >
+            {/* Logo — CSS animation, no framer motion = perfectly smooth */}
+            <div className="w-20 h-20 relative logo-entry">
               <Image
                 src="/logo.svg"
                 alt="Digitiva"
                 fill
                 className="object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.6)]"
               />
-            </motion.div>
+            </div>
 
-            {/* Letters that fly in 3D, then explode on boom */}
+            {/* Letters */}
             <div className="flex gap-[0.05em]" style={{ perspective: 800, lineHeight: 1 }}>
               {LETTERS.map((letter, i) => (
                 <motion.span
@@ -192,21 +141,13 @@ export default function Preloader() {
                   }
                   transition={
                     isBoom
-                      ? {
-                          duration: 1.1,
-                          times: [0, 0.35, 1],
-                          ease: [0.7, 0, 0.84, 0],
-                        }
-                      : {
-                          duration: 0.7,
-                          delay: 0.6 + i * 0.06,
-                          ease: [0.16, 1, 0.3, 1],
-                        }
+                      ? { duration: 1.1, times: [0, 0.35, 1], ease: [0.7, 0, 0.84, 0] }
+                      : { duration: 0.7, delay: 0.6 + i * 0.06, ease: [0.16, 1, 0.3, 1] }
                   }
                   className={`inline-block font-space font-bold text-4xl md:text-6xl tracking-[0.28em] ${
                     i < 2 ? "gradient-text" : "text-white"
                   }`}
-                  style={{ transformStyle: "preserve-3d" }}
+                  style={{ transformStyle: "preserve-3d", willChange: "transform" }}
                 >
                   {letter}
                 </motion.span>
@@ -223,7 +164,7 @@ export default function Preloader() {
             </motion.p>
           </motion.div>
 
-          {/* Shockwave rings on boom */}
+          {/* Shockwaves */}
           {isBoom && (
             <>
               {[0, 0.15, 0.3].map((delay, idx) => (
@@ -243,7 +184,7 @@ export default function Preloader() {
             </>
           )}
 
-          {/* Particle burst */}
+          {/* Particles */}
           {isBoom && (
             <div className="absolute inset-0 pointer-events-none">
               {Array.from({ length: 24 }).map((_, i) => {
@@ -281,7 +222,7 @@ export default function Preloader() {
             {String(count).padStart(3, "0")}
           </motion.div>
 
-          {/* Loading label */}
+          {/* Label */}
           <motion.div
             animate={{ opacity: isBoom ? 0 : 1 }}
             transition={{ duration: 0.2 }}
