@@ -1,0 +1,311 @@
+"use client";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+
+const LETTERS = "DIGITIVA".split("");
+
+type Stage = "loading" | "booming" | "exiting" | "done";
+
+export default function Preloader() {
+  const [count, setCount] = useState(0);
+  const [stage, setStage] = useState<Stage>("loading");
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    if (sessionStorage.getItem("dgtv-loaded")) {
+      setVisible(false);
+      return;
+    }
+    let current = 0;
+    const interval = setInterval(() => {
+      const jump = Math.floor(Math.random() * 9) + 5;
+      current = Math.min(current + jump, 100);
+      setCount(current);
+      if (current >= 100) {
+        clearInterval(interval);
+        // Brief hold, then BOOM
+        setTimeout(() => setStage("booming"), 320);
+        // After boom animation, clip-up exit
+        setTimeout(() => setStage("exiting"), 320 + 1100);
+        // After exit animation, remove
+        setTimeout(() => {
+          setStage("done");
+          setVisible(false);
+          sessionStorage.setItem("dgtv-loaded", "1");
+        }, 320 + 1100 + 1000);
+      }
+    }, 34);
+    return () => clearInterval(interval);
+  }, []);
+
+  if (!visible) return null;
+
+  const isBoom = stage === "booming" || stage === "exiting";
+
+  return (
+    <AnimatePresence>
+      {stage !== "done" && (
+        <motion.div
+          key="preloader"
+          exit={{ opacity: 0 }}
+          animate={
+            stage === "exiting"
+              ? { clipPath: "inset(0 0 100% 0)" }
+              : { clipPath: "inset(0 0 0 0)" }
+          }
+          transition={
+            stage === "exiting"
+              ? { duration: 1, ease: [0.76, 0, 0.24, 1] }
+              : { duration: 0 }
+          }
+          style={{ clipPath: "inset(0 0 0 0)" }}
+          className="fixed inset-0 z-[99999] bg-[#030712] flex flex-col items-center justify-center overflow-hidden"
+        >
+          {/* Grid */}
+          <div className="absolute inset-0 grid-bg opacity-25 pointer-events-none" />
+
+          {/* Rotating orbital rings — accelerate on boom */}
+          <motion.div
+            animate={{ rotate: isBoom ? 1440 : 360 }}
+            transition={{
+              duration: isBoom ? 1.1 : 14,
+              repeat: isBoom ? 0 : Infinity,
+              ease: isBoom ? [0.16, 1, 0.3, 1] : "linear",
+            }}
+            className="absolute w-[700px] h-[700px] rounded-full border border-white/[0.05]"
+          />
+          <motion.div
+            animate={{
+              rotate: isBoom ? -1440 : -360,
+              scale: isBoom ? 3 : 1,
+              opacity: isBoom ? 0 : 1,
+            }}
+            transition={{
+              duration: isBoom ? 1.1 : 22,
+              repeat: isBoom ? 0 : Infinity,
+              ease: isBoom ? [0.16, 1, 0.3, 1] : "linear",
+            }}
+            className="absolute w-[520px] h-[520px] rounded-full border border-[#3B82F6]/30"
+          />
+          <motion.div
+            animate={{
+              rotate: isBoom ? 1440 : 360,
+              scale: isBoom ? 4 : 1,
+              opacity: isBoom ? 0 : 1,
+            }}
+            transition={{
+              duration: isBoom ? 1.1 : 30,
+              repeat: isBoom ? 0 : Infinity,
+              ease: isBoom ? [0.16, 1, 0.3, 1] : "linear",
+            }}
+            className="absolute w-[340px] h-[340px] rounded-full border border-[#10B981]/30"
+          />
+
+          {/* Glow that expands and flashes on boom */}
+          <motion.div
+            className="absolute pointer-events-none"
+            animate={{
+              scale: isBoom ? [1, 2.5, 6] : 1,
+              opacity: isBoom ? [0.5, 1, 0] : 0.5,
+            }}
+            transition={{ duration: isBoom ? 1.1 : 0, times: [0, 0.5, 1], ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              width: 600,
+              height: 600,
+              borderRadius: "50%",
+              background:
+                "radial-gradient(circle, rgba(59,130,246,0.45) 0%, rgba(16,185,129,0.25) 35%, transparent 70%)",
+              filter: "blur(60px)",
+            }}
+          />
+
+          {/* WHITE FLASH at peak of boom */}
+          <motion.div
+            aria-hidden
+            className="absolute inset-0 bg-white pointer-events-none"
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity:
+                stage === "booming" || stage === "exiting" ? [0, 0, 0.85, 0] : 0,
+            }}
+            transition={{
+              duration: 1.1,
+              times: [0, 0.55, 0.7, 1],
+              ease: "easeOut",
+            }}
+          />
+
+          {/* Center: spinning logo + forming letters that BOOM */}
+          <motion.div
+            className="relative flex flex-col items-center gap-6 z-10"
+            animate={
+              isBoom
+                ? {
+                    scale: [1, 1.25, 8],
+                    rotate: [0, 180, 540],
+                    opacity: [1, 1, 0],
+                  }
+                : {}
+            }
+            transition={{
+              duration: 1.1,
+              times: [0, 0.4, 1],
+              ease: [0.7, 0, 0.84, 0],
+            }}
+            style={{ perspective: 1200 }}
+          >
+            <motion.div
+              initial={{ scale: 0.2, rotate: 0, opacity: 0 }}
+              animate={{
+                scale: [0.2, 1.15, 1],
+                rotate: [0, 720, 720],
+                opacity: [0, 1, 1],
+              }}
+              transition={{ duration: 1.4, times: [0, 0.7, 1], ease: [0.16, 1, 0.3, 1] }}
+              className="w-20 h-20 relative"
+            >
+              <Image
+                src="/logo.svg"
+                alt="Digitiva"
+                fill
+                className="object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.6)]"
+              />
+            </motion.div>
+
+            {/* Letters that fly in 3D, then explode on boom */}
+            <div className="flex gap-[0.05em]" style={{ perspective: 800, lineHeight: 1 }}>
+              {LETTERS.map((letter, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ y: 60, rotateX: -90, opacity: 0 }}
+                  animate={
+                    isBoom
+                      ? {
+                          y: [0, -10, (i - 3.5) * 40],
+                          x: (i - 3.5) * 80,
+                          rotateZ: (i - 3.5) * 35,
+                          scale: [1, 1.4, 0],
+                          opacity: [1, 1, 0],
+                        }
+                      : { y: 0, rotateX: 0, opacity: 1 }
+                  }
+                  transition={
+                    isBoom
+                      ? {
+                          duration: 1.1,
+                          times: [0, 0.35, 1],
+                          ease: [0.7, 0, 0.84, 0],
+                        }
+                      : {
+                          duration: 0.7,
+                          delay: 0.6 + i * 0.06,
+                          ease: [0.16, 1, 0.3, 1],
+                        }
+                  }
+                  className={`inline-block font-space font-bold text-4xl md:text-6xl tracking-[0.28em] ${
+                    i < 2 ? "gradient-text" : "text-white"
+                  }`}
+                  style={{ transformStyle: "preserve-3d" }}
+                >
+                  {letter}
+                </motion.span>
+              ))}
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: isBoom ? 0 : 1, y: 0 }}
+              transition={{ duration: 0.7, delay: isBoom ? 0 : 1.2 }}
+              className="text-[#334155] text-[11px] tracking-[0.45em] uppercase"
+            >
+              Digital Studio · Riyadh
+            </motion.p>
+          </motion.div>
+
+          {/* Shockwave rings on boom */}
+          {isBoom && (
+            <>
+              {[0, 0.15, 0.3].map((delay, idx) => (
+                <motion.div
+                  key={idx}
+                  className="absolute rounded-full border-2 pointer-events-none"
+                  initial={{ width: 0, height: 0, opacity: 0.9, borderColor: "rgba(59,130,246,0.8)" }}
+                  animate={{
+                    width: 1800,
+                    height: 1800,
+                    opacity: 0,
+                    borderColor: "rgba(16,185,129,0)",
+                  }}
+                  transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
+                />
+              ))}
+            </>
+          )}
+
+          {/* Particle burst */}
+          {isBoom && (
+            <div className="absolute inset-0 pointer-events-none">
+              {Array.from({ length: 24 }).map((_, i) => {
+                const angle = (i / 24) * Math.PI * 2;
+                const dist = 600 + Math.random() * 200;
+                const colors = ["#3B82F6", "#06B6D4", "#10B981", "#8B5CF6"];
+                return (
+                  <motion.span
+                    key={i}
+                    className="absolute top-1/2 left-1/2 w-1.5 h-1.5 rounded-full"
+                    initial={{ x: 0, y: 0, opacity: 1, scale: 1 }}
+                    animate={{
+                      x: Math.cos(angle) * dist,
+                      y: Math.sin(angle) * dist,
+                      opacity: 0,
+                      scale: 0,
+                    }}
+                    transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      background: colors[i % colors.length],
+                      boxShadow: `0 0 12px ${colors[i % colors.length]}`,
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+
+          {/* Counter */}
+          <motion.div
+            animate={{ opacity: isBoom ? 0 : 1 }}
+            transition={{ duration: 0.2 }}
+            className="absolute bottom-10 right-10 font-space text-sm text-[#1E293B] tabular-nums"
+          >
+            {String(count).padStart(3, "0")}
+          </motion.div>
+
+          {/* Loading label */}
+          <motion.div
+            animate={{ opacity: isBoom ? 0 : 1 }}
+            transition={{ duration: 0.2 }}
+            className="absolute bottom-10 left-10 font-space text-[10px] tracking-[0.45em] uppercase text-[#1E293B]"
+          >
+            {count < 100 ? "Forming" : "Ready"}
+          </motion.div>
+
+          {/* Progress bar */}
+          <motion.div
+            className="absolute bottom-0 left-0 h-[2px]"
+            animate={{
+              width: `${count}%`,
+              height: isBoom ? 6 : 2,
+              opacity: stage === "exiting" ? 0 : 1,
+            }}
+            transition={{ duration: isBoom ? 0.4 : 0.1 }}
+            style={{
+              background: "linear-gradient(to right, #3B82F6, #06B6D4, #10B981)",
+              boxShadow: isBoom ? "0 0 30px rgba(59,130,246,0.9)" : "none",
+            }}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
