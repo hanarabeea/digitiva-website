@@ -27,7 +27,10 @@
       "PowerShell(node -v)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(git submodule *)",
+      "Bash(git rm *)",
+      "Bash(git config *)"
     ]
   }
 }
