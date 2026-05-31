@@ -11,27 +11,43 @@ export default function Preloader() {
   const [count, setCount] = useState(0);
   const [stage, setStage] = useState<Stage>("loading");
   const [visible, setVisible] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+    const mountedAt = performance.now();
+    // Letters finish forming at ~1.6s — boom must wait until after that.
+    const MIN_HOLD = 1900;
+
     let current = 0;
     const interval = setInterval(() => {
-      const jump = Math.floor(Math.random() * 9) + 5;
+      const jump = Math.floor(Math.random() * 5) + 3;
       current = Math.min(current + jump, 100);
       setCount(current);
       if (current >= 100) {
         clearInterval(interval);
-        setTimeout(() => setStage("booming"), 320);
-        setTimeout(() => setStage("exiting"), 320 + 1100);
+        const elapsed = performance.now() - mountedAt;
+        const wait = Math.max(MIN_HOLD - elapsed, 350);
+        setTimeout(() => setStage("booming"), wait);
+        setTimeout(() => setStage("exiting"), wait + 1100);
         setTimeout(() => {
           setStage("done");
           setVisible(false);
-        }, 320 + 1100 + 1000);
+        }, wait + 1100 + 1000);
       }
-    }, 34);
+    }, 40);
     return () => clearInterval(interval);
   }, []);
 
   if (!visible) return null;
+
+  // SSR / pre-hydration: render just a solid black overlay so nothing flashes
+  // before framer-motion takes over the letters.
+  if (!mounted) {
+    return (
+      <div className="fixed inset-0 z-[99999] bg-[#030712] pointer-events-none" />
+    );
+  }
 
   const isBoom = stage === "booming" || stage === "exiting";
 

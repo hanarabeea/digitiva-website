@@ -33,6 +33,10 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Disable browser scroll restoration before React/framer-motion initialise */}
+        <script dangerouslySetInnerHTML={{ __html: `if('scrollRestoration'in history)history.scrollRestoration='manual';history.scrollRestoration='manual';window.scrollTo(0,0);` }} />
+      </head>
       <body className="bg-app-deep text-app antialiased overflow-x-hidden">
         <ThemeProvider>
           <SmoothScroll>{children}</SmoothScroll>
