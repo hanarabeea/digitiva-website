@@ -1,6 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { MapPin } from "lucide-react";
+import { useTheme } from "./ThemeProvider";
 
 const links = [
   { label: "Work", href: "#work" },
@@ -14,6 +16,8 @@ const scrollTo = (href: string) => {
 };
 
 export default function Footer() {
+  const { theme } = useTheme();
+
   return (
     <footer className="relative border-t border-app bg-app-deep">
       {/* Top gradient accent */}
@@ -28,19 +32,15 @@ export default function Footer() {
             viewport={{ once: true }}
             className="flex flex-col items-center md:items-start gap-2"
           >
-            <div className="flex items-center gap-3">
-              <div className="relative w-8 h-8">
+            <div className="flex items-center">
+              <div className="relative w-[110px] h-[36px]">
                 <Image
-                  src="/logo.svg"
+                  src={theme === "night" ? "/logo-light.png" : "/logo-dark.png"}
                   alt="Digitiva"
                   fill
                   className="object-contain"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).style.display = "none";
-                  }}
                 />
               </div>
-              <span className="font-space text-xl font-bold gradient-text">Digitiva</span>
             </div>
             <p className="text-app-faint text-sm">We design the future people feel.</p>
           </motion.div>
@@ -93,6 +93,10 @@ export default function Footer() {
           <p className="text-app-dim text-sm">
             © {new Date().getFullYear()} Digitiva. All rights reserved.
           </p>
+          <div className="flex items-center gap-1.5 text-app-dim text-sm">
+            <MapPin size={13} className="text-[#3B82F6] flex-shrink-0" />
+            Talkha, Dakahlia, Egypt
+          </div>
           <p className="text-app-dim text-sm">
             Built with precision. Delivered with purpose.
           </p>

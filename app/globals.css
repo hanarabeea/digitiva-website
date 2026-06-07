@@ -9,6 +9,7 @@
 :root {
   --font-space: var(--font-space-grotesk);
   --font-inter: var(--font-inter-var);
+  --font-playfair: var(--font-playfair);
 
   /* Night theme (default) */
   --bg: #05060F;
@@ -53,6 +54,19 @@ body {
   color: var(--text);
   overflow-x: hidden;
   transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/*
+ * Mobile safety net: framer-motion sets inline opacity:0 via its `initial`
+ * prop during SSR/SSG. If animations don't fire on mobile, sections stay
+ * invisible. Force opacity/visibility only — never override transform, which
+ * breaks sticky scroll and positioned elements.
+ */
+@media (max-width: 1024px), (pointer: coarse), (hover: none) {
+  main * {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 }
 
 /* Custom scrollbar */
@@ -175,8 +189,9 @@ body {
 .scroll-x-rev { animation: scrollX 30s linear infinite reverse; }
 
 /* Fonts */
-.font-space  { font-family: var(--font-space, 'Space Grotesk', sans-serif); }
-.font-inter  { font-family: var(--font-inter, 'Inter', sans-serif); }
+.font-space    { font-family: var(--font-space, 'Space Grotesk', sans-serif); }
+.font-inter    { font-family: var(--font-inter, 'Inter', sans-serif); }
+.font-playfair { font-family: var(--font-playfair, 'Playfair Display', Georgia, serif); }
 
 /* Theme-aware bg utilities */
 .bg-app       { background-color: var(--bg); }
@@ -188,3 +203,521 @@ body {
 .text-app-dim   { color: var(--text-dim); }
 .text-app-faint { color: var(--text-faint); }
 .border-app   { border-color: var(--border); }
+
+/* Wibify Interactive Hover Utilities */
+
+/* 1. Mouse-following glow card */
+.mouse-glow-card {
+  position: relative;
+  overflow: hidden;
+}
+.mouse-glow-card::before {
+  content: "";
+  position: absolute;
+  top: var(--y, 0);
+  left: var(--x, 0);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle closest-side, rgba(255,255,255,0.03), transparent);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.mouse-glow-card:hover::before {
+  opacity: 1;
+}
+
+/* 2. Shiny Border on Hover */
+.shiny-border-card {
+  position: relative;
+}
+.shiny-border-card::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    600px circle at var(--x, 0) var(--y, 0),
+    rgba(255,255,255,0.1),
+    transparent 40%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.shiny-border-card:hover::after {
+  opacity: 1;
+}
+
+/* 3. Text Roll Animation */
+.text-roll {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  vertical-align: top;
+}
+.text-roll-inner {
+  display: inline-block;
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.text-roll-inner::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  color: var(--color-brand-blue);
+}
+.group:hover .text-roll-inner {
+  transform: translateY(-100%);
+}
+
+/* Wibify Expertise Card Stack Layout & Animations */
+.expertise {
+  border-top: 1px solid var(--border);
+  position: relative;
+  overflow: visible;
+}
+
+.expertise-section {
+  position: relative;
+  overflow: visible;
+}
+
+.expertise-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.expertise-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-space);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-brand-blue);
+}
+
+.eyebrow-bar {
+  display: inline-block;
+  width: 32px;
+  height: 1.5px;
+  background-color: var(--color-brand-blue);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.eyebrow-tag {
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+
+.expertise-title {
+  font-family: var(--font-space);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text);
+}
+
+.expertise-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 15vh; /* Spacing between cards when scrolling */
+  position: relative;
+  overflow: visible;
+}
+
+.expertise-card-pin {
+  position: sticky;
+  top: calc(7rem + var(--i, 0) * 1.75rem); /* Overlapping deck offset */
+  display: flex;
+  align-items: stretch;
+  will-change: transform;
+}
+
+.expertise-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  height: 65vh;
+  min-height: 420px;
+  max-height: 580px;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 20px 40px rgba(0, 0, 0, 0.4);
+  transform-origin: top center;
+}
+
+.expertise-card-media {
+  position: relative;
+  background-color: #070913;
+  overflow: hidden;
+  height: 100%;
+}
+
+.expertise-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem;
+  overflow: hidden;
+}
+
+.expertise-step-num {
+  font-family: var(--font-space);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+
+.expertise-step-num-divider {
+  color: var(--text-faint);
+  margin: 0 0.5rem;
+}
+
+.expertise-step-description {
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+.expertise-deliverables {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.expertise-deliverable {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-space);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.expertise-deliverable::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--text-faint);
+}
+
+/* Watermark text — cap opacity on mobile so it stays as subtle as desktop */
+@media (max-width: 1023px) {
+  .watermark-text {
+    opacity: 0.04 !important;
+  }
+}
+
+/* Responsive adjustments for mobile/tablet */
+@media (max-width: 1023px) {
+  .expertise-stack {
+    gap: 12vh;
+  }
+
+  .expertise-card-pin {
+    position: sticky;
+    top: calc(5rem + var(--i, 0) * 1.25rem);
+  }
+
+  .expertise-card {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: unset;
+    max-height: unset;
+  }
+
+  .expertise-card-media {
+    height: 220px;
+  }
+
+  .expertise-card-body {
+    padding: 2rem 1.5rem;
+  }
+
+  .expertise-step-description {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* =============================================
+   Wibify Works / Capabilities List Section
+   ============================================= */
+
+.works-section {
+  position: relative;
+}
+
+.works-head {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.works-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-space);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-brand-blue);
+}
+
+.works-title {
+  font-family: var(--font-space);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 6.5vw, 5.25rem);
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+  color: var(--text);
+}
+
+.works-title em {
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  background: linear-gradient(135deg, #3B82F6, #06B6D4, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding: 0 0.04em;
+}
+
+/* List container */
+.works-list {
+  border-top: 1px solid var(--border);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each row */
+.works-item {
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.works-link {
+  display: grid;
+  grid-template-columns: 60px 1fr auto auto auto;
+  align-items: baseline;
+  gap: 2rem;
+  padding: 2.25rem 0.5rem;
+  color: var(--text);
+  text-decoration: none;
+  position: relative;
+  transition: padding-left 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+/* Hover growing accent line across top */
+.works-link::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #3B82F6, #06B6D4, #10B981);
+  transition: width 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.works-link:hover {
+  padding-left: 2.25rem;
+}
+
+.works-link:hover::before {
+  width: 100%;
+}
+
+/* Number */
+.works-num {
+  font-family: var(--font-space);
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Name */
+.works-name {
+  font-family: var(--font-space);
+  letter-spacing: -0.04em;
+  color: var(--text);
+  margin: 0;
+  font-size: clamp(1.65rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Tag & Year */
+.works-tag,
+.works-year {
+  font-family: var(--font-space);
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+/* Arrow */
+.works-arrow {
+  font-family: var(--font-space);
+  color: var(--text-faint);
+  font-size: 1.1rem;
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.works-link:hover .works-arrow {
+  color: var(--color-brand-blue);
+  transform: translate(4px, -4px);
+}
+
+/* =============================================
+   Letter-by-letter Text Roll (Wibify style)
+   ============================================= */
+.works-text-roll {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.works-text-roll-row {
+  display: inline-flex;
+}
+
+.works-text-roll-clone {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.works-text-roll-letter {
+  display: inline-block;
+  transition:
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 0.018s);
+}
+
+/* Clone letters start below */
+.works-text-roll-clone .works-text-roll-letter {
+  transform: translateY(105%);
+  color: var(--color-brand-blue);
+}
+
+/* On hover: original letters go up, clone letters come in */
+.works-link:hover .works-text-roll-row:not(.works-text-roll-clone) > .works-text-roll-letter {
+  transform: translateY(-105%);
+}
+
+.works-link:hover .works-text-roll-clone .works-text-roll-letter {
+  transform: translateY(0);
+}
+
+/* Footer CTA */
+.works-cta {
+  font-family: var(--font-space);
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  transition:
+    color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.works-cta:hover {
+  color: var(--color-brand-blue);
+  border-bottom-color: var(--color-brand-blue);
+}
+
+.works-cta-arrow {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.works-cta:hover .works-cta-arrow {
+  transform: translateX(4px);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .works-link {
+    grid-template-columns: 48px 1fr;
+    grid-template-rows: auto auto;
+    align-items: center;
+    gap: 0.25rem 0.85rem;
+    padding: 1.25rem 0.25rem;
+  }
+
+  .works-link:hover {
+    padding-left: 0.25rem;
+  }
+
+  .works-num {
+    grid-area: 1 / 1 / 3;
+    align-self: center;
+  }
+
+  .works-name {
+    grid-area: 1 / 2;
+    align-self: end;
+    font-size: clamp(1.05rem, 4.6vw, 1.4rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+
+  .works-tag {
+    grid-area: 2 / 2;
+    align-self: start;
+    font-size: 0.66rem;
+  }
+
+  .works-year,
+  .works-arrow {
+    display: none;
+  }
+}

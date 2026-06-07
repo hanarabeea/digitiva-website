@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Space_Grotesk, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import ScrollRestoration from "@/components/ScrollRestoration";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -14,6 +15,18 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter-var",
 });
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  style: ["normal", "italic"],
+  weight: ["400", "500"],
+});
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Digitiva — Where Fresh Ideas Meet Digital Excellence",
@@ -30,14 +43,11 @@ export default function RootLayout({
     <html
       lang="en"
       data-theme="night"
-      className={`${spaceGrotesk.variable} ${inter.variable}`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${playfair.variable}`}
       suppressHydrationWarning
     >
-      <head>
-        {/* Disable browser scroll restoration before React/framer-motion initialise */}
-        <script dangerouslySetInnerHTML={{ __html: `if('scrollRestoration'in history)history.scrollRestoration='manual';history.scrollRestoration='manual';window.scrollTo(0,0);` }} />
-      </head>
       <body className="bg-app-deep text-app antialiased overflow-x-hidden">
+        <ScrollRestoration />
         <ThemeProvider>
           <SmoothScroll>{children}</SmoothScroll>
         </ThemeProvider>

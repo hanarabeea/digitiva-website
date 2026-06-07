@@ -13,10 +13,15 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
 
+    // Skip Lenis on touch/mobile devices — it hijacks native touch scrolling
+    // and can cause sections to appear blank on iOS Safari
+    const isTouchDevice = window.matchMedia("(pointer: coarse)").matches
+      || "ontouchstart" in window;
+    if (isTouchDevice) return;
+
     const l = new Lenis({
       duration: 1.6,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
       smoothWheel: true,
     } as ConstructorParameters<typeof Lenis>[0]);
 

@@ -43,7 +43,14 @@ function Card({ f, i }: { f: typeof founders[0]; i: number }) {
       data-cursor-hover
     >
       <div
-        className="relative rounded-3xl border border-app bg-app-card overflow-hidden p-8 md:p-10 h-full transition-colors duration-500"
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          e.currentTarget.style.setProperty("--x", `${x}px`);
+          e.currentTarget.style.setProperty("--y", `${y}px`);
+        }}
+        className="relative rounded-3xl border border-app bg-app-card overflow-hidden p-8 md:p-10 h-full transition-all duration-500 mouse-glow-card shiny-border-card"
         style={{ background: "linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elevated) 100%)" }}
       >
         {/* Accent glow */}
@@ -57,7 +64,7 @@ function Card({ f, i }: { f: typeof founders[0]; i: number }) {
         />
 
         {/* Number + accent bar */}
-        <div className="flex items-center gap-4 mb-10">
+        <div className="flex items-center gap-4 mb-10 z-10 relative">
           <span
             className="font-space font-bold text-sm"
             style={{ color: f.accent }}
@@ -78,14 +85,14 @@ function Card({ f, i }: { f: typeof founders[0]; i: number }) {
 
         {/* Name */}
         <h3
-          className="font-space font-bold text-app mb-4"
+          className="font-space font-bold text-app mb-4 z-10 relative text-roll"
           style={{
             fontSize: "clamp(1.8rem, 3.2vw, 2.6rem)",
             letterSpacing: "-0.02em",
             lineHeight: 1.05,
           }}
         >
-          {f.name}
+          <span className="text-roll-inner" data-text={f.name}>{f.name}</span>
         </h3>
 
         {/* Role */}

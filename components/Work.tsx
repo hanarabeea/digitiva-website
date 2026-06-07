@@ -1,7 +1,12 @@
 "use client";
-import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
+import { useRef, useState, useEffect } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  AnimatePresence,
+} from "framer-motion";
 import { ArrowUpRight, Play } from "lucide-react";
 
 const projects = [
@@ -9,14 +14,14 @@ const projects = [
     num: "01",
     name: "Sense Fragrance",
     category: "Luxury E-Commerce",
-    year: "2024",
+    year: "2025",
     desc: "Immersive fragrance e-commerce — 63% session depth increase, 38% conversion uplift in 60 days.",
     metrics: [
       { label: "Conv. Uplift", value: "+38%" },
       { label: "Session Depth", value: "+63%" },
       { label: "Stack", value: "Next.js" },
     ],
-    poster: "https://images.unsplash.com/photo-1594913023767-4462a4c3ee70?w=1600&q=85",
+    poster: "/sense-preview.png",
     video: "/videos/sense.mp4",
     url: "https://sensefragrance.com",
     accent: "#3B82F6",
@@ -25,14 +30,14 @@ const projects = [
     num: "02",
     name: "Alanood Al Qadi",
     category: "Fashion Atelier",
-    year: "2024",
+    year: "2025",
     desc: "Refined digital presence for a distinguished fashion designer — editorial photography direction & bespoke gallery.",
     metrics: [
       { label: "Bounce", value: "−41%" },
       { label: "Avg. Session", value: "4m 12s" },
       { label: "Stack", value: "Next.js" },
     ],
-    poster: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&q=85",
+    poster: "/sense-preview.png",
     video: "/videos/alanood.mp4",
     url: "https://alanodalqadi.com",
     accent: "#8B5CF6",
@@ -41,278 +46,408 @@ const projects = [
     num: "03",
     name: "El Raey Group",
     category: "Dress Atelier",
-    year: "2024",
+    year: "2026",
     desc: "Cinematic showcase for an elite dress atelier — curated gallery, tailored customer journey, Arabic-first design.",
     metrics: [
       { label: "Inquiries", value: "+212%" },
       { label: "Lighthouse", value: "98" },
       { label: "Stack", value: "Next.js" },
     ],
-    poster: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1600&q=85",
+    poster: "/sense-preview.png",
     video: "/videos/raey.mp4",
     url: "https://raeygroup.digitivaa.com",
     accent: "#10B981",
   },
 ];
 
-function ProjectCase({ p, index }: { p: typeof projects[0]; index: number }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+type Project = (typeof projects)[0];
+
+function ProjectCard({ p, index }: { p: Project; index: number }) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: wrapRef,
     offset: ["start end", "end start"],
   });
-  const mediaY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const textY = useTransform(scrollYProgress, [0, 1], ["6%", "-6%"]);
+
+  const spring = useSpring(scrollYProgress, { stiffness: 50, damping: 18 });
+
+  // Inner image parallax — image is taller than container, drifts upward
+  const imgY = useTransform(spring, [0, 1], [0, -80]);
+
+  // Card translates at half scroll speed
+  const cardY = useTransform(spring, [0, 1], [60, -60]);
+
+  // Text moves opposite direction
+  const textY = useTransform(spring, [0, 1], [-40, 40]);
+
+  // Ghost number drifts
+  const numY = useTransform(spring, [0, 1], [80, -80]);
+  const numX = useTransform(spring, [0, 1], [index % 2 === 0 ? -20 : 20, 0]);
+  const numOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
 
   const reverse = index % 2 === 1;
 
   const handleEnter = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    setHovered(true);
+    videoRef.current?.play().then(() => setPlaying(true)).catch(() => {});
   };
   const handleLeave = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.pause();
+    setHovered(false);
+    videoRef.current?.pause();
     setPlaying(false);
   };
 
   return (
-    <motion.div
+    <div
       ref={wrapRef}
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 1, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-      className={`grid md:grid-cols-12 gap-8 md:gap-12 items-center mb-24 md:mb-40 ${
+      className={`grid md:grid-cols-12 gap-6 md:gap-16 items-center py-16 md:py-24 border-b border-app last:border-b-0 ${
         reverse ? "md:[direction:rtl]" : ""
       }`}
     >
-      {/* Media */}
+      {/* ── Media column ── */}
       <motion.div
-        style={{ y: mediaY }}
+        style={{ y: cardY }}
         className="md:col-span-7 [direction:ltr] relative"
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        data-cursor-hover
       >
-        <a
-          href={p.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block relative aspect-[16/10] rounded-2xl overflow-hidden border border-white/[0.06] group"
-        >
-          {/* Poster fallback */}
-          <Image
-            src={p.poster}
-            alt={p.name}
-            fill
-            className="object-cover transition-opacity duration-500"
-            style={{ opacity: playing ? 0 : 1 }}
-            sizes="(max-width: 768px) 100vw, 60vw"
-          />
-
-          {/* Video — drop your screen recording at public{p.video} */}
-          <video
-            ref={videoRef}
-            src={p.video}
-            poster={p.poster}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ opacity: playing ? 1 : 0, transition: "opacity 500ms" }}
-          />
-
-          {/* Vignette */}
-          <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#05060F]/60 via-transparent to-transparent" />
-
-          {/* Play badge */}
-          <div
-            className="absolute top-5 left-5 flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md text-[10px] tracking-[0.25em] uppercase font-medium"
-            style={{
-              background: `${p.accent}22`,
-              border: `1px solid ${p.accent}55`,
-              color: "#fff",
-            }}
-          >
-            <span
-              className="w-1.5 h-1.5 rounded-full animate-pulse"
-              style={{ background: p.accent }}
-            />
-            {playing ? "Playing" : "Hover to preview"}
-          </div>
-
-          {/* Visit pill */}
-          <div className="absolute bottom-5 right-5 flex items-center gap-2 px-4 py-2 rounded-full bg-white text-[#05060F] text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            Visit site <ArrowUpRight size={14} />
-          </div>
-
-          {/* Browser chrome top bar */}
-          <div className="absolute top-0 left-0 right-0 h-8 flex items-center gap-1.5 px-4 bg-[#0A0B1A]/85 backdrop-blur-md border-b border-white/[0.06]">
-            <span className="w-2 h-2 rounded-full bg-red-500/70" />
-            <span className="w-2 h-2 rounded-full bg-yellow-500/70" />
-            <span className="w-2 h-2 rounded-full bg-green-500/70" />
-            <span className="ml-3 text-[10px] text-app-muted tracking-wide truncate">
-              {p.url.replace("https://", "")}
-            </span>
-          </div>
-        </a>
-
-        {/* Floating accent square */}
+        {/* Ghost number */}
         <motion.div
           aria-hidden
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -bottom-4 -right-4 w-20 h-20 rounded-2xl border hidden md:block"
-          style={{ borderColor: `${p.accent}40`, background: `${p.accent}08` }}
-        />
-      </motion.div>
-
-      {/* Text */}
-      <motion.div
-        style={{ y: textY }}
-        className={`md:col-span-5 [direction:ltr] ${reverse ? "md:pr-4" : "md:pl-4"}`}
-      >
-        <div className="flex items-center gap-4 mb-5">
+          style={{
+            y: numY,
+            x: numX,
+            opacity: numOpacity,
+            top: reverse ? "auto" : "-5%",
+            bottom: reverse ? "-5%" : "auto",
+            left: reverse ? "auto" : "-4%",
+            right: reverse ? "-4%" : "auto",
+          }}
+          className="absolute pointer-events-none select-none z-0"
+        >
           <span
-            className="font-space font-bold text-sm"
-            style={{ color: p.accent }}
+            className="font-space font-black leading-none"
+            style={{
+              fontSize: "clamp(6rem, 14vw, 14rem)",
+              WebkitTextStroke: `1.5px ${p.accent}35`,
+              color: "transparent",
+              letterSpacing: "-0.05em",
+            }}
           >
             {p.num}
           </span>
-          <span className="h-px flex-1 bg-white/[0.08]" />
-          <span className="text-[#475569] text-[10px] tracking-[0.3em] uppercase">
-            {p.year}
-          </span>
-        </div>
+        </motion.div>
 
-        <p className="text-app-muted text-xs tracking-[0.25em] uppercase mb-3">
-          {p.category}
-        </p>
-
-        <h3
-          className="font-space font-bold text-app mb-5"
+        {/* Glow halo */}
+        <motion.div
+          aria-hidden
+          animate={{ opacity: hovered ? 0.6 : 0.18, scale: hovered ? 1.06 : 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="absolute -inset-10 rounded-[2rem] pointer-events-none z-0"
           style={{
-            fontSize: "clamp(1.8rem, 3.4vw, 3rem)",
-            letterSpacing: "-0.02em",
-            lineHeight: 1.05,
+            background: `radial-gradient(ellipse at 50% 60%, ${p.accent}40, transparent 65%)`,
+            filter: "blur(40px)",
           }}
-        >
-          {p.name}
-        </h3>
+        />
 
-        <p className="text-app-muted leading-relaxed mb-8 max-w-md">{p.desc}</p>
+        {/* Card */}
+        <div className="relative z-10">
+          <a
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block rounded-2xl overflow-hidden border border-app bg-app-card"
+            style={{
+              boxShadow: hovered
+                ? `0 40px 100px -20px ${p.accent}50, 0 0 0 1px ${p.accent}25`
+                : "0 20px 70px -20px rgba(0,0,0,0.7)",
+              transition: "box-shadow 0.7s ease",
+            }}
+          >
+            {/* Browser bar */}
+            <div className="flex items-center gap-1.5 px-4 h-9 bg-app-deep border-b border-app">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
+              <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
+              <span className="ml-3 text-[11px] text-app-dim tracking-wide">
+                {p.url.replace("https://", "")}
+              </span>
+            </div>
 
-        <div className="grid grid-cols-3 gap-3 mb-8 max-w-md">
-          {p.metrics.map((m) => (
-            <div
-              key={m.label}
-              className="rounded-xl border border-white/[0.06] bg-white/[0.02] px-3 py-3"
-            >
-              <div
-                className="font-space font-bold text-sm md:text-base"
-                style={{ color: p.accent }}
+            {/* Image area — overflow hidden for inner parallax */}
+            <div className="relative overflow-hidden" style={{ aspectRatio: "16/9" }}>
+              <motion.div
+                style={{ y: imgY }}
+                className="absolute inset-x-0 -top-10 -bottom-10"
               >
-                {m.value}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={p.poster}
+                  alt={p.name}
+                  className="w-full h-full object-cover object-top"
+                  style={{ opacity: playing ? 0 : 1, transition: "opacity 0.5s" }}
+                />
+                <video
+                  ref={videoRef}
+                  src={p.video}
+                  poster={p.poster}
+                  muted loop playsInline preload="metadata"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  style={{ opacity: playing ? 1 : 0, transition: "opacity 0.5s" }}
+                />
+              </motion.div>
+
+              {/* Shine sweep */}
+              <div
+                className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-[1200ms] ease-out pointer-events-none z-10"
+                style={{
+                  background:
+                    "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.08) 50%, transparent 70%)",
+                }}
+              />
+
+              {/* Bottom vignette */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none z-10" />
+
+              {/* Status pill */}
+              <div
+                className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-semibold tracking-[0.2em] uppercase backdrop-blur-sm"
+                style={{
+                  background: `${p.accent}20`,
+                  border: `1px solid ${p.accent}50`,
+                  color: "#fff",
+                }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: p.accent }} />
+                {playing ? "Playing" : "Hover to preview"}
               </div>
-              <div className="text-[#475569] text-[9px] tracking-[0.2em] uppercase mt-1">
-                {m.label}
+
+              {/* Visit overlay */}
+              <div className="absolute bottom-4 right-4 z-20 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-black text-xs font-bold">
+                Visit site <ArrowUpRight size={13} />
               </div>
             </div>
+          </a>
+        </div>
+
+        {/* Floating deco square */}
+        <motion.div
+          aria-hidden
+          animate={{ y: [0, -14, 0], rotate: [0, 8, 0] }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: index * 0.4 }}
+          className="absolute -bottom-4 -right-4 w-16 h-16 rounded-xl border hidden md:block z-10"
+          style={{ borderColor: `${p.accent}35`, background: `${p.accent}07` }}
+        />
+      </motion.div>
+
+      {/* ── Text column ── */}
+      <motion.div
+        style={{ y: textY }}
+        className={`md:col-span-5 [direction:ltr] ${reverse ? "md:pr-2" : "md:pl-2"}`}
+      >
+        {/* Index line */}
+        <div className="flex items-center gap-3 mb-6">
+          <span className="font-space font-bold text-xs tracking-widest" style={{ color: p.accent }}>
+            {p.num}
+          </span>
+          <motion.div
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            className="h-px flex-1 origin-left"
+            style={{ background: `linear-gradient(90deg, ${p.accent}, transparent)` }}
+          />
+          <span className="text-app-dim text-[10px] tracking-[0.3em] uppercase font-space">{p.year}</span>
+        </div>
+
+        {/* Category reveal */}
+        <div className="overflow-hidden mb-3">
+          <motion.p
+            initial={{ y: "110%" }}
+            whileInView={{ y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="text-app-muted text-xs tracking-[0.3em] uppercase font-space"
+          >
+            {p.category}
+          </motion.p>
+        </div>
+
+        {/* Title reveal */}
+        <div className="overflow-hidden mb-5">
+          <motion.h3
+            initial={{ y: "110%" }}
+            whileInView={{ y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.85, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+            className="font-space font-bold text-app leading-[1.02]"
+            style={{ fontSize: "clamp(2rem, 3.5vw, 3.2rem)", letterSpacing: "-0.025em" }}
+          >
+            {p.name}
+          </motion.h3>
+        </div>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.14 }}
+          className="text-app-muted leading-relaxed text-sm md:text-base mb-8 max-w-sm"
+        >
+          {p.desc}
+        </motion.p>
+
+        {/* Metrics */}
+        <div className="grid grid-cols-3 gap-2.5 mb-8 max-w-sm">
+          {p.metrics.map((m, i) => (
+            <motion.div
+              key={m.label}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.18 + i * 0.07 }}
+              className="relative rounded-xl border border-app bg-app-card px-3 py-3 overflow-hidden hover:border-app-muted/30 transition-colors duration-300 group/metric"
+            >
+              <div
+                className="absolute inset-x-0 bottom-0 h-px scale-x-0 group-hover/metric:scale-x-100 transition-transform duration-500 origin-left"
+                style={{ background: `linear-gradient(90deg, ${p.accent}, transparent)` }}
+              />
+              <div className="font-space font-black text-sm md:text-base leading-none mb-1" style={{ color: p.accent }}>
+                {m.value}
+              </div>
+              <div className="text-app-dim text-[9px] tracking-[0.2em] uppercase">{m.label}</div>
+            </motion.div>
           ))}
         </div>
 
-        <a
+        {/* CTA */}
+        <motion.a
           href={p.url}
           target="_blank"
           rel="noopener noreferrer"
-          data-cursor-hover
-          className="inline-flex items-center gap-3 group"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.38 }}
+          className="inline-flex items-center gap-3 group/cta"
         >
           <span
-            className="w-12 h-12 rounded-full flex items-center justify-center border transition-all duration-300 group-hover:scale-110"
-            style={{
-              borderColor: `${p.accent}60`,
-              background: `${p.accent}12`,
-              color: p.accent,
-            }}
+            className="relative w-11 h-11 rounded-full flex items-center justify-center border overflow-hidden transition-transform duration-300 group-hover/cta:scale-110"
+            style={{ borderColor: `${p.accent}50`, background: `${p.accent}12` }}
           >
-            <Play size={14} fill={p.accent} />
+            <span
+              className="absolute inset-0 rounded-full scale-0 group-hover/cta:scale-100 transition-transform duration-500 ease-out"
+              style={{ background: p.accent, opacity: 0.2 }}
+            />
+            <Play size={13} fill={p.accent} color={p.accent} className="relative z-10 translate-x-[1px]" />
           </span>
-          <span className="font-space font-medium text-app text-sm tracking-wide">
+          <span className="font-space font-semibold text-app-muted group-hover/cta:text-app text-sm flex items-center gap-1.5 transition-colors">
             View case study
+            <ArrowUpRight
+              size={14}
+              className="opacity-40 group-hover/cta:opacity-100 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-all duration-300"
+            />
           </span>
-        </a>
+        </motion.a>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
 
 export default function Work() {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const labelY = useTransform(scrollYProgress, [0, 0.3], [30, 0]);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [activeAccent, setActiveAccent] = useState(projects[0].accent);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const spring = useSpring(scrollYProgress, { stiffness: 50, damping: 18 });
+
+  const headerY = useTransform(spring, [0, 0.25], [0, -50]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0]);
+
+  const glowX = useTransform(spring, [0, 0.5, 1], ["20%", "55%", "80%"]);
+  const glowY = useTransform(spring, [0, 1], ["15%", "85%"]);
+
+  useEffect(() => {
+    return scrollYProgress.on("change", (v) => {
+      const idx = Math.min(Math.floor(v * projects.length), projects.length - 1);
+      if (idx >= 0) setActiveAccent(projects[idx].accent);
+    });
+  }, [scrollYProgress]);
 
   return (
-    <section id="work" ref={ref} className="bg-app py-24 md:py-32 border-t border-app relative overflow-hidden">
-      {/* Ambient glow */}
-      <div
-        aria-hidden
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[800px] pointer-events-none opacity-40"
-        style={{
-          background: "radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 60%)",
-          filter: "blur(60px)",
-        }}
-      />
+    <section id="work" ref={sectionRef} className="bg-app border-t border-app relative overflow-hidden">
 
-      <div className="max-w-[1400px] mx-auto px-8 md:px-14 relative">
+      {/* Scroll-tracked ambient glow */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeAccent}
+          aria-hidden
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.6 }}
+          className="absolute pointer-events-none w-[1000px] h-[1000px] -translate-x-1/2 -translate-y-1/2 z-0"
+          style={{
+            left: glowX,
+            top: glowY,
+            background: `radial-gradient(circle, ${activeAccent}14 0%, transparent 55%)`,
+            filter: "blur(100px)",
+          }}
+        />
+      </AnimatePresence>
 
+      <div className="max-w-[1400px] mx-auto px-8 md:px-14 relative z-10">
         {/* Header */}
-        <motion.div style={{ y: labelY }} className="flex items-end justify-between mb-20 md:mb-28 gap-4">
+        <motion.div
+          style={{ y: headerY }}
+          className="pt-24 md:pt-32 pb-4 flex items-end justify-between gap-4"
+        >
           <div>
             <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="text-xs tracking-[0.25em] uppercase text-[#3B82F6] mb-4"
+              transition={{ duration: 0.6 }}
+              className="works-eyebrow mb-4"
             >
-              — Selected Work
+              <span className="eyebrow-bar" aria-hidden="true" />
+              <span className="eyebrow-tag">[02]</span>Selected Work
             </motion.p>
-            <div className="overflow-hidden">
-              <motion.h2
-                initial={{ y: "100%" }}
-                whileInView={{ y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="font-space font-bold text-app"
-                style={{ fontSize: "clamp(2rem, 5vw, 5rem)", letterSpacing: "-0.03em", lineHeight: 1 }}
-              >
-                Platforms we&apos;ve{" "}
-                <span className="gradient-text">built</span>
-              </motion.h2>
-            </div>
+            <motion.h2
+              initial={{ y: 24 }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="font-space font-bold text-app"
+              style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", letterSpacing: "-0.03em", lineHeight: 1.08 }}
+            >
+              Platforms we&apos;ve <span className="gradient-text">built.</span>
+            </motion.h2>
           </div>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="hidden md:block text-[#334155] text-xs text-right max-w-[200px] leading-relaxed"
+            transition={{ delay: 0.35 }}
+            className="hidden md:block text-app-dim text-xs text-right max-w-[190px] leading-relaxed"
           >
-            Hover any project to play a live screen-capture preview
           </motion.p>
         </motion.div>
 
-        {/* Projects */}
-        <div>
+        {/* Project list */}
+        <div className="pb-24 md:pb-32">
           {projects.map((p, i) => (
-            <ProjectCase key={p.num} p={p} index={i} />
+            <ProjectCard key={p.num} p={p} index={i} />
           ))}
         </div>
       </div>

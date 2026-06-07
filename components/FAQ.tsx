@@ -9,8 +9,8 @@ const faqs = [
     a: "Marketing sites: 3–5 weeks. E-commerce platforms: 6–10 weeks. Custom ERP and complex web apps: 10–16 weeks. We share a precise timeline after the discovery phase.",
   },
   {
-    q: "Do you work with brands outside Saudi Arabia?",
-    a: "Yes — we serve clients across the GCC, MENA, Europe, and North America. Our team works remotely and on-site as needed, with bilingual delivery in English and Arabic.",
+    q: "Do you work with international brands?",
+    a: "Yes — we work with clients from around the world. Our team operates remotely and on-site as needed, with bilingual delivery in English and Arabic.",
   },
   {
     q: "What stack do you build on?",

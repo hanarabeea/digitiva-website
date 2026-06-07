@@ -48,13 +48,14 @@ export default function About() {
 
         {/* Label */}
         <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, x: -16 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-xs tracking-[0.25em] uppercase text-[#3B82F6] mb-16"
+          transition={{ duration: 0.7 }}
+          className="expertise-eyebrow mb-16"
         >
-          — About Digitiva
+          <span className="eyebrow-bar" aria-hidden="true" />
+          <span className="eyebrow-tag">[01]</span>About Digitiva
         </motion.p>
 
         {/* Two-column layout */}
@@ -62,15 +63,17 @@ export default function About() {
 
           {/* Left: big statement */}
           <div>
-            <Reveal delay={0.1}>
-              <h2
-                className="font-space font-bold text-app leading-[1.05]"
-                style={{ fontSize: "clamp(2.2rem, 4.5vw, 4.5rem)", letterSpacing: "-0.025em" }}
-              >
-                Beyond digital presence — we architect resilient ecosystems for
-                <span className="gradient-text"> brands to thrive.</span>
-              </h2>
-            </Reveal>
+            <motion.h2
+              initial={{ y: 30 }}
+              whileInView={{ y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-space font-bold text-app"
+              style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", letterSpacing: "-0.03em", lineHeight: 1.08 }}
+            >
+              Beyond digital presence —{" "}
+              <span className="gradient-text">we architect resilient ecosystems for brands to thrive.</span>
+            </motion.h2>
           </div>
 
           {/* Right: description + stats */}

@@ -1,15 +1,15 @@
 "use client";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Compass, Pencil, Code2, Rocket, LineChart, LifeBuoy } from "lucide-react";
+import { Lightbulb, Zap, Handshake, Gauge, Sparkles, Infinity } from "lucide-react";
 
 const steps = [
-  { n: "01", icon: Compass,   title: "Discover",   desc: "Workshops, stakeholder interviews, audits. We learn your business before we touch a pixel.", accent: "#3B82F6" },
-  { n: "02", icon: Pencil,    title: "Design",     desc: "Wireframes, prototypes, brand systems. Iteration until the experience feels inevitable.",  accent: "#06B6D4" },
-  { n: "03", icon: Code2,     title: "Build",      desc: "Production-grade engineering in Next.js, React Native, and bespoke ERP stacks.",            accent: "#8B5CF6" },
-  { n: "04", icon: Rocket,    title: "Launch",     desc: "QA, performance, accessibility, SEO — then ship with a polished go-live plan.",              accent: "#10B981" },
-  { n: "05", icon: LineChart, title: "Scale",      desc: "Analytics, A/B testing, growth loops. We tune for the metrics that move your business.",    accent: "#F59E0B" },
-  { n: "06", icon: LifeBuoy,  title: "Support",    desc: "Long-term partnership. Maintenance, evolution, and on-call when it matters.",                accent: "#EF4444" },
+  { n: "01", icon: Lightbulb,  title: "Clarity First",          desc: "We simplify the complex before we make it beautiful. Every decision starts with a clear understanding of the problem.", accent: "#3B82F6" },
+  { n: "02", icon: Zap,        title: "No Shortcuts",           desc: "Fast delivery, never at the cost of quality. We move quickly because we plan well — not because we cut corners.",        accent: "#06B6D4" },
+  { n: "03", icon: Handshake,  title: "You're a Partner",       desc: "We work with you, not for you. Your insight shapes our decisions at every stage — not just at the brief.",              accent: "#8B5CF6" },
+  { n: "04", icon: Gauge,      title: "Performance Obsessed",   desc: "Every millisecond, every interaction counts. Speed and accessibility are built in from day one — never added at the end.", accent: "#10B981" },
+  { n: "05", icon: Sparkles,   title: "Details Win",            desc: "The things users don't notice consciously are what they feel. We sweat the micro so the macro lands with impact.",       accent: "#F59E0B" },
+  { n: "06", icon: Infinity,   title: "Built to Last",          desc: "We build for where you're going, not just where you are. Scalable architecture, clean code, and long-term thinking.",   accent: "#EF4444" },
 ];
 
 export default function Process() {
@@ -22,12 +22,14 @@ export default function Process() {
       <div className="max-w-[1400px] mx-auto px-6 md:px-14">
         <div className="mb-16 md:mb-20 max-w-3xl">
           <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ opacity: 0, x: -16 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="text-xs tracking-[0.25em] uppercase text-[#3B82F6] mb-4"
+            transition={{ duration: 0.7 }}
+            className="expertise-eyebrow mb-4"
           >
-            — How we work
+            <span className="eyebrow-bar" aria-hidden="true" />
+            <span className="eyebrow-tag">[03]</span>What we believe
           </motion.p>
           <div className="overflow-hidden">
             <motion.h2
@@ -38,7 +40,7 @@ export default function Process() {
               className="font-space font-bold text-app"
               style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", letterSpacing: "-0.03em", lineHeight: 1 }}
             >
-              Six steps. <span className="gradient-text">One obsession.</span>
+              Six beliefs. <span className="gradient-text">One standard.</span>
             </motion.h2>
           </div>
         </div>
@@ -79,19 +81,26 @@ export default function Process() {
                   {/* Card */}
                   <div className={`md:col-span-1 ${right ? "md:col-start-2" : ""}`}>
                     <div
-                      className="rounded-2xl border border-app bg-app-card p-6 md:p-7 hover:border-strong transition-colors"
+                      onMouseMove={(e) => {
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        e.currentTarget.style.setProperty("--x", `${x}px`);
+                        e.currentTarget.style.setProperty("--y", `${y}px`);
+                      }}
+                      className="rounded-2xl border border-app bg-app-card p-6 md:p-7 hover:border-strong transition-all duration-500 depth-shadow mouse-glow-card shiny-border-card group cursor-default"
                       style={{ borderColor: "var(--border)" }}
                     >
-                      <div className="flex items-center gap-3 mb-3">
+                      <div className="flex items-center gap-3 mb-3 z-10 relative">
                         <span className="font-space font-bold text-sm" style={{ color: s.accent }}>
                           {s.n}
                         </span>
                         <span className="h-px flex-1 bg-app" />
                       </div>
-                      <h3 className="font-space font-bold text-app text-xl md:text-2xl mb-2">
-                        {s.title}
+                      <h3 className="font-space font-bold text-app text-xl md:text-2xl mb-2 z-10 relative text-roll">
+                        <span className="text-roll-inner" data-text={s.title}>{s.title}</span>
                       </h3>
-                      <p className="text-app-muted text-sm leading-relaxed">{s.desc}</p>
+                      <p className="text-app-muted text-sm leading-relaxed z-10 relative">{s.desc}</p>
                     </div>
                   </div>
                 </motion.div>

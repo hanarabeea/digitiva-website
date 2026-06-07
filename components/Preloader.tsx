@@ -15,8 +15,15 @@ export default function Preloader() {
 
   useEffect(() => {
     setMounted(true);
+
+    // On mobile/touch: skip the full animation — just fade out quickly
+    const isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 1024;
+    if (isMobile) {
+      const t = setTimeout(() => { setStage("done"); setVisible(false); }, 800);
+      return () => clearTimeout(t);
+    }
+
     const mountedAt = performance.now();
-    // Letters finish forming at ~1.6s — boom must wait until after that.
     const MIN_HOLD = 1900;
 
     let current = 0;
@@ -36,7 +43,11 @@ export default function Preloader() {
         }, wait + 1100 + 1000);
       }
     }, 40);
-    return () => clearInterval(interval);
+
+    // Hard safety cap — never block content for more than 8 seconds
+    const cap = setTimeout(() => { setStage("done"); setVisible(false); }, 8000);
+
+    return () => { clearInterval(interval); clearTimeout(cap); };
   }, []);
 
   if (!visible) return null;

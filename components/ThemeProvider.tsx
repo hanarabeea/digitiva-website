@@ -12,16 +12,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>("night");
 
   useEffect(() => {
-    const saved = (localStorage.getItem("dgtv-theme") as Theme | null) ?? "night";
-    setTheme(saved);
-    document.documentElement.setAttribute("data-theme", saved);
+    try {
+      const saved = (localStorage.getItem("dgtv-theme") as Theme | null) ?? "night";
+      setTheme(saved);
+      document.documentElement.setAttribute("data-theme", saved);
+    } catch {}
   }, []);
 
   const toggle = () => {
     const next: Theme = theme === "night" ? "day" : "night";
     setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("dgtv-theme", next);
+    try { localStorage.setItem("dgtv-theme", next); } catch {}
   };
 
   return <ThemeCtx.Provider value={{ theme, toggle }}>{children}</ThemeCtx.Provider>;

@@ -9,7 +9,6 @@ import { useTheme } from "./ThemeProvider";
 const links = [
   { label: "Work", href: "#work" },
   { label: "Services", href: "#services" },
-  { label: "Team", href: "#founders" },
   { label: "Invitations", href: "#invitations" },
   { label: "Contact", href: "#contact" },
 ];
@@ -50,15 +49,18 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-5 md:px-6 flex items-center justify-between h-16 md:h-20">
           <button
             onClick={() => lenis?.scrollTo(0, { duration: 1.8 })}
-            className="flex items-center gap-3 group"
+            className="flex items-center group"
             data-cursor-hover
           >
-            <div className="relative w-9 h-9 md:w-10 md:h-10">
-              <Image src="/logo.svg" alt="Digitiva" fill className="object-contain" />
+            <div className="relative w-[110px] h-[36px]">
+              <Image
+                src={theme === "night" ? "/logo-light.png" : "/logo-dark.png"}
+                alt="Digitiva"
+                fill
+                priority
+                className="object-contain"
+              />
             </div>
-            <span className="font-space text-base md:text-lg font-bold tracking-tight gradient-text">
-              Digitiva
-            </span>
           </button>
 
           <nav className="hidden md:flex items-center gap-7">
