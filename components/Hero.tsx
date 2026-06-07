@@ -174,7 +174,7 @@ export default function Hero() {
         className="absolute top-[12%] right-[4%] z-20 hidden lg:block"
       >
         <FloatingCard
-          src="https://images.unsplash.com/photo-1594913023767-4462a4c3ee70?w=500&q=85"
+          src="/sense-preview.png"
           alt="Sense Fragrance"
           label="sensefragrance.com"
           category="Luxury E-Commerce"
@@ -192,7 +192,7 @@ export default function Hero() {
         className="absolute bottom-[18%] left-[3%] z-20 hidden lg:block"
       >
         <FloatingCard
-          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=500&q=85"
+          src="/sense-preview.png"
           alt="Alanood Al Qadi"
           label="alanodalqadi.com"
           category="Fashion Atelier"
@@ -209,24 +209,6 @@ export default function Hero() {
         style={{ y: contentY, opacity }}
         className="relative z-10 flex flex-col flex-1"
       >
-        {/* Top bar */}
-        <div className="max-w-[1400px] mx-auto w-full px-8 md:px-14 flex items-center justify-between pt-10 pb-8">
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.1 }}
-            className="flex items-center gap-3"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
-            <span className="text-[11px] tracking-[0.28em] uppercase text-app-faint">Digital Studio</span>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            className="text-[11px] tracking-[0.28em] uppercase text-[#2D3748]"
-          >
-            Est. 2024
-          </motion.div>
-        </div>
 
         {/* Giant heading */}
         <div className="max-w-[1400px] mx-auto w-full px-6 md:px-12 flex-1 flex flex-col justify-center pb-10">
@@ -265,7 +247,7 @@ export default function Hero() {
               </button>
               <button
                 onClick={() => lenis?.scrollTo("#contact", { offset: -80, duration: 1.6 })}
-                className="text-sm text-app-faint hover:text-white transition-colors border-b border-[#334155] hover:border-white pb-0.5"
+                className="group flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-app border border-app hover:border-white/40 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] transition-all duration-300"
               >
                 Start a project →
               </button>

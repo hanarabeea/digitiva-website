@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef, useState } from "react";
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionValueEvent, MotionValue } from "framer-motion";
-import { ArrowRight, Star, Check, MapPin, Music } from "lucide-react";
+import { ArrowRight, Check, MapPin, Music } from "lucide-react";
 
 const IMAGES = [
   { src: "/inv1.jpg",  label: "Royal Wedding" },
@@ -77,11 +77,6 @@ export default function Invitations() {
       {/* ── Mobile text block (above the scroll container, lg hidden) ── */}
       <div className="lg:hidden bg-app-deep border-t border-app px-6 pt-14 pb-6">
         <div className="max-w-xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-app bg-app-card text-xs font-semibold uppercase tracking-wider text-app-muted">
-            <Star size={12} className="text-[#F59E0B]" fill="#F59E0B" />
-            Interactive Invitations
-          </div>
-
           <h2
             className="font-space font-bold text-app leading-[1.05] tracking-tight"
             style={{ fontSize: "clamp(1.85rem, 7vw, 2.8rem)" }}
@@ -233,11 +228,6 @@ export default function Invitations() {
 
               {/* Left text */}
               <motion.div style={{ y: contentY }} className="col-span-6 space-y-8">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-app bg-app-card text-xs font-semibold uppercase tracking-wider text-app-muted">
-                  <Star size={12} className="text-[#F59E0B]" fill="#F59E0B" />
-                  Interactive Invitations
-                </div>
-
                 <h2
                   className="font-space font-bold text-app leading-[1.05] tracking-tight"
                   style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}

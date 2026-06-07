@@ -213,18 +213,20 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
               {/* Bottom vignette */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none z-10" />
 
-              {/* Status pill */}
-              <div
-                className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-semibold tracking-[0.2em] uppercase backdrop-blur-sm"
-                style={{
-                  background: `${p.accent}20`,
-                  border: `1px solid ${p.accent}50`,
-                  color: "#fff",
-                }}
-              >
-                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: p.accent }} />
-                {playing ? "Playing" : "Hover to preview"}
-              </div>
+              {/* Status pill — only shown while playing */}
+              {playing && (
+                <div
+                  className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full text-[10px] font-semibold tracking-[0.2em] uppercase backdrop-blur-sm"
+                  style={{
+                    background: `${p.accent}20`,
+                    border: `1px solid ${p.accent}50`,
+                    color: "#fff",
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: p.accent }} />
+                  Playing
+                </div>
+              )}
 
               {/* Visit overlay */}
               <div className="absolute bottom-4 right-4 z-20 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-black text-xs font-bold">
