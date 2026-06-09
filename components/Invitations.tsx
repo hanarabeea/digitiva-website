@@ -13,7 +13,6 @@ const IMAGES = [
   { src: "/inv7.jpg",  label: "Garden Soirée" },
   { src: "/inv8.jpg",  label: "" },
   { src: "/inv9.jpg",  label: "Eid Celebration" },
-  { src: "/inv10.jpg", label: "Anniversary" },
 ];
 
 const FEATURES = [

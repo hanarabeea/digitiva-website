@@ -238,7 +238,13 @@ export default function Hero() {
               className="flex items-center gap-5 shrink-0"
             >
               <button
-                onClick={() => lenis?.scrollTo("#work", { offset: -80, duration: 1.6 })}
+                onClick={() => {
+                  if (lenis) {
+                    lenis.scrollTo("#work", { offset: -80, duration: 1.6 });
+                  } else {
+                    document.querySelector("#work")?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className="group flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold text-white btn-shimmer hover:scale-105 transition-all duration-300 shadow-lg"
                 style={{ background: "linear-gradient(135deg,#3B82F6,#06B6D4,#10B981,#3B82F6)", backgroundSize: "200% auto" }}
               >
@@ -246,7 +252,13 @@ export default function Hero() {
                 <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={() => lenis?.scrollTo("#contact", { offset: -80, duration: 1.6 })}
+                onClick={() => {
+                  if (lenis) {
+                    lenis.scrollTo("#contact", { offset: -80, duration: 1.6 });
+                  } else {
+                    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
                 className="group flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-app border border-app hover:border-white/40 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] transition-all duration-300"
               >
                 Start a project →

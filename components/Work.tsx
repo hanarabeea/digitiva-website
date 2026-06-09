@@ -28,22 +28,6 @@ const projects = [
   },
   {
     num: "02",
-    name: "Alanood Al Qadi",
-    category: "Fashion Atelier",
-    year: "2025",
-    desc: "Refined digital presence for a distinguished fashion designer — editorial photography direction & bespoke gallery.",
-    metrics: [
-      { label: "Bounce", value: "−41%" },
-      { label: "Avg. Session", value: "4m 12s" },
-      { label: "Stack", value: "Next.js" },
-    ],
-    poster: "/sense-preview.png",
-    video: "/videos/alanood.mp4",
-    url: "https://alanodalqadi.com",
-    accent: "#8B5CF6",
-  },
-  {
-    num: "03",
     name: "El Raey Group",
     category: "Dress Atelier",
     year: "2026",
@@ -53,10 +37,42 @@ const projects = [
       { label: "Lighthouse", value: "98" },
       { label: "Stack", value: "Next.js" },
     ],
-    poster: "/sense-preview.png",
+    poster: "/raey-preview.png",
     video: "/videos/raey.mp4",
-    url: "https://raeygroup.digitivaa.com",
+    url: "https://raeygroup.com",
     accent: "#10B981",
+  },
+  {
+    num: "03",
+    name: "Express Maritime",
+    category: "Marine & Maritime Supply",
+    year: "2025",
+    desc: "Professional Marine & Maritime Supply Services Across Egypt — full-catalogue platform connecting ports, vessels, and supply chains nationwide.",
+    metrics: [
+      { label: "Products", value: "500+" },
+      { label: "Ports", value: "All Egypt" },
+      { label: "Stack", value: "React" },
+    ],
+    poster: "/express-preview.png",
+    video: "/videos/express.mp4",
+    url: "https://expressservicess.com",
+    accent: "#0EA5E9",
+  },
+  {
+    num: "04",
+    name: "Alanood Al Qadi",
+    category: "Fashion Atelier",
+    year: "2025",
+    desc: "Refined digital presence for a distinguished fashion designer — editorial photography direction & bespoke gallery.",
+    metrics: [
+      { label: "Bounce", value: "−41%" },
+      { label: "Avg. Session", value: "4m 12s" },
+      { label: "Stack", value: "Next.js" },
+    ],
+    poster: "/alanod-preview.png",
+    video: "/videos/alanood.mp4",
+    url: "https://alanodalqadi.com",
+    accent: "#8B5CF6",
   },
 ];
 
@@ -74,9 +90,6 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   });
 
   const spring = useSpring(scrollYProgress, { stiffness: 50, damping: 18 });
-
-  // Inner image parallax — image is taller than container, drifts upward
-  const imgY = useTransform(spring, [0, 1], [0, -80]);
 
   // Card translates at half scroll speed
   const cardY = useTransform(spring, [0, 1], [60, -60]);
@@ -178,12 +191,9 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
               </span>
             </div>
 
-            {/* Image area — overflow hidden for inner parallax */}
+            {/* Image area */}
             <div className="relative overflow-hidden" style={{ aspectRatio: "16/9" }}>
-              <motion.div
-                style={{ y: imgY }}
-                className="absolute inset-x-0 -top-10 -bottom-10"
-              >
+              <div className="absolute inset-0">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={p.poster}
@@ -199,7 +209,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
                   className="absolute inset-0 w-full h-full object-cover"
                   style={{ opacity: playing ? 1 : 0, transition: "opacity 0.5s" }}
                 />
-              </motion.div>
+              </div>
 
               {/* Shine sweep */}
               <div
