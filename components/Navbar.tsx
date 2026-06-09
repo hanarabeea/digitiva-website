@@ -48,7 +48,13 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-5 md:px-6 flex items-center justify-between h-16 md:h-20">
           <button
-            onClick={() => lenis?.scrollTo(0, { duration: 1.8 })}
+            onClick={() => {
+              if (lenis) {
+                lenis.scrollTo(0, { duration: 1.8 });
+              } else {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }
+            }}
             className="flex items-center group"
             data-cursor-hover
           >
