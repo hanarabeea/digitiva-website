@@ -34,6 +34,34 @@ export const metadata: Metadata = {
     "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless digital experiences — e-commerce, ERP, UI/UX, and custom invitations.",
   keywords:
     "digitiva, web development, ecommerce, erp systems, ui ux design, digital invitations, saudi arabia",
+  icons: {
+    icon: "/logo-light.png",
+    shortcut: "/logo-light.png",
+    apple: "/logo-light.png",
+  },
+  openGraph: {
+    title: "Digitiva — Where Fresh Ideas Meet Digital Excellence",
+    description:
+      "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless digital experiences — e-commerce, ERP, UI/UX, and custom invitations.",
+    url: "https://digitivaa.com",
+    siteName: "Digitiva",
+    images: [
+      {
+        url: "https://digitivaa.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Digitiva Studio",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Digitiva — Where Fresh Ideas Meet Digital Excellence",
+    description:
+      "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless digital experiences — e-commerce, ERP, UI/UX, and custom invitations.",
+    images: ["https://digitivaa.com/og-image.jpg"],
+  },
 };
 
 export default function RootLayout({
