@@ -25,15 +25,15 @@ const socials = [
   {
     Icon: InstagramIcon,
     label: "Instagram",
-    handle: "@digitivaco",
-    url: "https://instagram.com/digitivaco",
+    handle: "@digitiva.co",
+    url: "https://instagram.com/digitiva.co",
     accent: "#E1306C",
   },
   {
     Icon: FacebookIcon,
     label: "Facebook",
     handle: "Digitiva",
-    url: "https://facebook.com",
+    url: "https://www.facebook.com/share/1JNmHQvVSx/?mibextid=wwXIfr",
     accent: "#1877F2",
   },
 ];
