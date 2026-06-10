@@ -125,7 +125,7 @@ export default function Invitations() {
 
           {/* Background (desktop only visuals) */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute inset-0 grid-bg opacity-20" />
+            <div className="absolute inset-0 grid-bg opacity-20 hidden lg:block" />
             <motion.div
               style={{ x: bgTextX, opacity: bgTextOpacity }}
               className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap select-none watermark-text"
