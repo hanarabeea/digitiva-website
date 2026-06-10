@@ -145,10 +145,10 @@ export default function Invitations() {
           {/* ── MOBILE sticky view: phone centered ── */}
           <div className="lg:hidden relative z-10 h-full flex flex-col items-center justify-center gap-6 px-6">
             {/* Phone */}
-            <div className="relative" style={{ width: 260 }}>
+            <div className="relative" style={{ width: "min(320px, 85vw)" }}>
               <div
                 className="relative mx-auto rounded-[3rem] border border-app bg-app-card/60 p-3.5 shadow-2xl"
-                style={{ width: 260, height: 500 }}
+                style={{ width: "min(320px, 85vw)", height: "min(620px, 165vw)" }}
               >
                 <div className="absolute top-5 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-full z-30" />
                 <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden bg-black border border-white/[0.04]">
