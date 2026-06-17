@@ -29,15 +29,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://digitivaa.com"),
   title: "Digitiva — Where Fresh Ideas Meet Digital Excellence",
   description:
     "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless digital experiences — e-commerce, ERP, UI/UX, and custom invitations.",
   keywords:
     "digitiva, web development, ecommerce, erp systems, ui ux design, digital invitations, saudi arabia",
   icons: {
-    icon: "/logo-light.png",
-    shortcut: "/logo-light.png",
-    apple: "/logo-light.png",
+    icon: "/og-image.jpg",
+    shortcut: "/og-image.jpg",
+    apple: "/og-image.jpg",
   },
   openGraph: {
     title: "Digitiva — Where Fresh Ideas Meet Digital Excellence",
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "Digitiva",
     images: [
       {
-        url: "https://digitivaa.com/og-image.jpg",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Digitiva Studio",
@@ -60,7 +61,7 @@ export const metadata: Metadata = {
     title: "Digitiva — Where Fresh Ideas Meet Digital Excellence",
     description:
       "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless digital experiences — e-commerce, ERP, UI/UX, and custom invitations.",
-    images: ["https://digitivaa.com/og-image.jpg"],
+    images: ["/og-image.jpg"],
   },
 };
 
