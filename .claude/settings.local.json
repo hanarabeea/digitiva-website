@@ -31,7 +31,8 @@
       "Bash(git submodule *)",
       "Bash(git rm *)",
       "Bash(git config *)",
-      "WebFetch(domain:wibify.agency)"
+      "WebFetch(domain:wibify.agency)",
+      "Bash(python -c \"from PIL import Image; img = Image.open\\('public/og-image.jpg'\\); print\\(img.size, img.mode\\)\")"
     ]
   }
 }

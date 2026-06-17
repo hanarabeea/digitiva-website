@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "Digitiva",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "https://digitivaa.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "Digitiva Studio",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     title: "Digitiva — Where Fresh Ideas Meet Digital Excellence",
     description:
       "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless digital experiences — e-commerce, ERP, UI/UX, and custom invitations.",
-    images: ["/og-image.jpg"],
+    images: ["https://digitivaa.com/og-image.jpg"],
   },
 };
 
