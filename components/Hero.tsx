@@ -4,15 +4,19 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring } from "fram
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { useLenis } from "./SmoothScroll";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-/* Clip-reveal wrapper */
+/* Reveal wrapper — plain opacity/translate fade, no overflow-hidden clip mask.
+   A clipped element sliding in via `transform` from behind `overflow: hidden`
+   is a known iOS Safari bug that can leave it permanently invisible until a
+   forced repaint, which is unacceptable for the hero heading. */
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
   return (
-    <div style={{ overflow: "hidden", lineHeight: 1 }}>
+    <div style={{ lineHeight: 1 }}>
       <motion.div
-        initial={{ y: "108%" }}
-        animate={{ y: 0 }}
-        transition={{ duration: 1.1, delay, ease: [0.16, 1, 0.3, 1] }}
+        initial={{ y: "20%", opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
       >
         {children}
       </motion.div>
@@ -52,7 +56,7 @@ function FloatingCard({
           </div>
         </div>
         <div className="relative" style={{ height: height - 28 }}>
-          <Image src={src} alt={alt} fill className="object-cover" />
+          <Image src={src} alt={alt} fill sizes="240px" className="object-cover" />
           <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-[#030712]/90 to-transparent">
             <p className="text-[9px] text-[#94A3B8] uppercase tracking-widest">{category}</p>
           </div>
@@ -62,7 +66,7 @@ function FloatingCard({
   );
 }
 
-export default function Hero() {
+export default function Hero({ dict }: { dict: Dictionary }) {
   const ref = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 
@@ -176,8 +180,8 @@ export default function Hero() {
         <FloatingCard
           src="/sense-preview.png"
           alt="Sense Fragrance"
-          label="sensefragrance.com"
-          category="Luxury E-Commerce"
+          label={dict.hero.cards[0].label}
+          category={dict.hero.cards[0].category}
           rotate={-9}
           width={240}
           height={165}
@@ -194,8 +198,8 @@ export default function Hero() {
         <FloatingCard
           src="/sense-preview.png"
           alt="Alanood Al Qadi"
-          label="alanodalqadi.com"
-          category="Fashion Atelier"
+          label={dict.hero.cards[1].label}
+          category={dict.hero.cards[1].category}
           rotate={8}
           width={200}
           height={260}
@@ -212,14 +216,14 @@ export default function Hero() {
 
         {/* Giant heading */}
         <div className="max-w-[1400px] mx-auto w-full px-6 md:px-12 flex-1 flex flex-col justify-center pb-10">
-          <div
-            className="font-space font-bold text-app select-none"
+          <h1
+            className="hero-title font-space font-bold text-app select-none"
             style={{ fontSize: "clamp(3rem, 10.2vw, 10.5rem)", lineHeight: 0.92, letterSpacing: "-0.03em" }}
           >
-            <Reveal delay={0.3}><span>We Design</span></Reveal>
-            <Reveal delay={0.46}><span>the Future</span></Reveal>
-            <Reveal delay={0.62}><span className="gradient-text">People Feel.</span></Reveal>
-          </div>
+            <Reveal delay={0.3}><span>{dict.hero.line1}</span></Reveal>
+            <Reveal delay={0.46}><span>{dict.hero.line2}</span></Reveal>
+            <Reveal delay={0.62}><span className="text-[#3B82F6]">{dict.hero.line3}</span></Reveal>
+          </h1>
 
           {/* Sub-row */}
           <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-end gap-8 justify-between">
@@ -228,8 +232,7 @@ export default function Hero() {
               transition={{ duration: 0.9, delay: 0.95 }}
               className="max-w-xs text-app-faint text-sm leading-relaxed"
             >
-              Strategy · AI · Interface craft — launching timeless digital experiences for
-              founders and marketing leaders.
+              {dict.hero.subtitle}
             </motion.p>
 
             <motion.div
@@ -248,8 +251,8 @@ export default function Hero() {
                 className="group flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-semibold text-white btn-shimmer hover:scale-105 transition-all duration-300 shadow-lg"
                 style={{ background: "linear-gradient(135deg,#3B82F6,#06B6D4,#10B981,#3B82F6)", backgroundSize: "200% auto" }}
               >
-                View Work
-                <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
+                {dict.hero.viewWork}
+                <ArrowRight size={15} className="rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
               </button>
               <button
                 onClick={() => {
@@ -261,7 +264,7 @@ export default function Hero() {
                 }}
                 className="group flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-app border border-app hover:border-white/40 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] transition-all duration-300"
               >
-                Start a project →
+                {dict.hero.startProject}
               </button>
             </motion.div>
           </div>
@@ -273,12 +276,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 1.3 }}
           className="max-w-[1400px] mx-auto w-full px-8 md:px-14 py-7 border-t border-app flex flex-wrap gap-8 md:gap-16"
         >
-          {[
-            { val: "92", label: "NPS Score" },
-            { val: "94%", label: "Retention" },
-            { val: "6wk", label: "Avg. Delivery" },
-            { val: "3+", label: "Markets" },
-          ].map((s) => (
+          {dict.hero.stats.map((s) => (
             <div key={s.label} className="flex items-baseline gap-2">
               <span className="font-space font-bold text-2xl gradient-text">{s.val}</span>
               <span className="text-app-dim text-xs uppercase tracking-widest">{s.label}</span>

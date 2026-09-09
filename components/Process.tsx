@@ -2,17 +2,13 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Lightbulb, Zap, Handshake, Gauge, Sparkles, Infinity } from "lucide-react";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-const steps = [
-  { n: "01", icon: Lightbulb,  title: "Clarity First",          desc: "We simplify the complex before we make it beautiful. Every decision starts with a clear understanding of the problem.", accent: "#3B82F6" },
-  { n: "02", icon: Zap,        title: "No Shortcuts",           desc: "Fast delivery, never at the cost of quality. We move quickly because we plan well — not because we cut corners.",        accent: "#06B6D4" },
-  { n: "03", icon: Handshake,  title: "You're a Partner",       desc: "We work with you, not for you. Your insight shapes our decisions at every stage — not just at the brief.",              accent: "#8B5CF6" },
-  { n: "04", icon: Gauge,      title: "Performance Obsessed",   desc: "Every millisecond, every interaction counts. Speed and accessibility are built in from day one — never added at the end.", accent: "#10B981" },
-  { n: "05", icon: Sparkles,   title: "Details Win",            desc: "The things users don't notice consciously are what they feel. We sweat the micro so the macro lands with impact.",       accent: "#F59E0B" },
-  { n: "06", icon: Infinity,   title: "Built to Last",          desc: "We build for where you're going, not just where you are. Scalable architecture, clean code, and long-term thinking.",   accent: "#EF4444" },
-];
+const ICONS = [Lightbulb, Zap, Handshake, Gauge, Sparkles, Infinity];
+const ACCENTS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#10B981", "#F59E0B", "#EF4444"];
 
-export default function Process() {
+export default function Process({ dict }: { dict: Dictionary }) {
+  const steps = dict.process.steps.map((s, i) => ({ ...s, icon: ICONS[i], accent: ACCENTS[i] }));
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.2"] });
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
@@ -29,7 +25,7 @@ export default function Process() {
             className="expertise-eyebrow mb-4"
           >
             <span className="eyebrow-bar" aria-hidden="true" />
-            <span className="eyebrow-tag">[03]</span>What we believe
+            <span className="eyebrow-tag">[03]</span>{dict.process.eyebrow}
           </motion.p>
           <div className="overflow-hidden">
             <motion.h2
@@ -40,17 +36,17 @@ export default function Process() {
               className="font-space font-bold text-app"
               style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", letterSpacing: "-0.03em", lineHeight: 1 }}
             >
-              Six beliefs. <span className="gradient-text">One standard.</span>
+              {dict.process.heading1} <span className="gradient-text">{dict.process.heading2}</span>
             </motion.h2>
           </div>
         </div>
 
         <div className="relative">
           {/* Vertical line */}
-          <div className="absolute left-[18px] md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-app" />
+          <div className="absolute start-[18px] md:start-1/2 md:-translate-x-1/2 top-0 bottom-0 w-px bg-app" />
           <motion.div
             style={{ height: lineHeight }}
-            className="absolute left-[18px] md:left-1/2 md:-translate-x-1/2 top-0 w-px"
+            className="absolute start-[18px] md:start-1/2 md:-translate-x-1/2 top-0 w-px"
           >
             <div className="w-full h-full bg-gradient-to-b from-[#3B82F6] via-[#06B6D4] to-[#10B981]" />
           </motion.div>

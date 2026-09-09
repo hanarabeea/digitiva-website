@@ -1,20 +1,10 @@
 "use client";
 import { motion } from "framer-motion";
-
-const items = [
-  "E-Commerce Platforms",
-  "ERP Systems",
-  "Web Development",
-  "UI/UX Design",
-  "Digital Invitations",
-  "Brand Strategy",
-  "Growth Intelligence",
-  "Product Velocity",
-];
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
 const diamond = <span className="text-[#3B82F6] mx-8 text-xs">◆</span>;
 
-function Strip({ reverse = false }: { reverse?: boolean }) {
+function Strip({ items, reverse = false }: { items: string[]; reverse?: boolean }) {
   return (
     <div className="flex overflow-hidden">
       <motion.div
@@ -33,10 +23,10 @@ function Strip({ reverse = false }: { reverse?: boolean }) {
   );
 }
 
-export default function Marquee() {
+export default function Marquee({ dict }: { dict: Dictionary }) {
   return (
     <div className="border-y border-app py-4 overflow-hidden bg-app select-none">
-      <Strip />
+      <Strip items={dict.marquee.items} />
     </div>
   );
 }

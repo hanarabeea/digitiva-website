@@ -2,47 +2,17 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-const disciplines = [
-  {
-    n: "01",
-    total: "04",
-    title: "Strategy",
-    desc: "We align ambition, audience, and commercial goals before design decisions begin, so the product moves with intent instead of guesswork.",
-    bullets: ["Briefing & Workshop", "Competitor Analysis", "Brand Strategy", "Roadmap"],
-    accent: "#3B82F6",
-    image: "/strategie.jpg",
-  },
-  {
-    n: "02",
-    total: "04",
-    title: "Design",
-    desc: "Interfaces are shaped to feel premium at first glance and effortless after a minute, with rhythm, hierarchy, and restraint built into every screen.",
-    bullets: ["UI Systems", "Prototypes", "Art Direction", "Motion Design"],
-    accent: "#06B6D4",
-    image: "/design.jpg",
-  },
-  {
-    n: "03",
-    total: "04",
-    title: "Build",
-    desc: "We engineer resilient frontends and business platforms that stay fast under pressure, scale cleanly, and remain maintainable after launch.",
-    bullets: ["Next.js & React", "Architecture", "Performance", "TypeScript"],
-    accent: "#8B5CF6",
-    image: "/build.jpg",
-  },
-  {
-    n: "04",
-    total: "04",
-    title: "Launch",
-    desc: "QA, performance, accessibility, SEO — then go live with a polished plan. We stay close through the first weeks to tune what matters.",
-    bullets: ["Go-live Plan", "SEO & Speed", "Accessibility", "Support"],
-    accent: "#10B981",
-    image: "/launch.jpg",
-  },
-];
+const IMAGES = ["/strategie.jpg", "/design.jpg", "/build.jpg", "/launch.jpg"];
+const ACCENTS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#10B981"];
 
-export default function Disciplines() {
+export default function Disciplines({ dict }: { dict: Dictionary }) {
+  const disciplines = dict.disciplines.items.map((d, i) => ({
+    ...d,
+    accent: ACCENTS[i],
+    image: IMAGES[i],
+  }));
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -64,7 +34,7 @@ export default function Disciplines() {
         <div className="sticky top-0 h-screen flex items-center overflow-hidden">
           <motion.div style={{ x: textX, opacity: textOpacity }} className="whitespace-nowrap watermark-text">
             <span className="text-[18vw] font-space font-bold uppercase tracking-[-0.05em] text-app select-none">
-              Disciplines &amp; Capabilities
+              {dict.disciplines.watermark}
             </span>
           </motion.div>
         </div>
@@ -76,12 +46,12 @@ export default function Disciplines() {
         <header className="expertise-head max-w-[1400px] mx-auto px-6 md:px-14 pt-24 md:pt-32">
           <p className="expertise-eyebrow">
             <span className="eyebrow-bar" aria-hidden="true" />
-            <span className="eyebrow-tag">[04]</span>Our Expertise
+            <span className="eyebrow-tag">[04]</span>{dict.disciplines.eyebrow}
           </p>
           <h2 className="expertise-title">
-            Ideas need{" "}
-            <span className="italic font-normal text-[#3B82F6] font-serif">multiple</span>{" "}
-            <span className="italic font-normal text-[#10B981] font-serif">forces.</span>
+            {dict.disciplines.headingPre}{" "}
+            <span className="italic font-normal text-[#3B82F6] font-serif">{dict.disciplines.headingMid}</span>{" "}
+            <span className="italic font-normal text-[#10B981] font-serif">{dict.disciplines.headingPost}</span>
           </h2>
         </header>
 
@@ -97,11 +67,16 @@ export default function Disciplines() {
   );
 }
 
+type DisciplineItem = Dictionary["disciplines"]["items"][number] & {
+  accent: string;
+  image: string;
+};
+
 function DisciplineCard({
   d,
   idx,
 }: {
-  d: (typeof disciplines)[0];
+  d: DisciplineItem;
   idx: number;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);

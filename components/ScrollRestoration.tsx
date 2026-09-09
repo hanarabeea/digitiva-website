@@ -7,6 +7,7 @@ export default function ScrollRestoration() {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
+    if (window.location.hash) return; // let the hash target scroll into view naturally
     window.scrollTo(0, 0);
   }, []);
 

@@ -1,0 +1,543 @@
+{
+  "meta": {
+    "title": "Digitiva — Where Fresh Ideas Meet Digital Excellence",
+    "description": "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless digital experiences — e-commerce, ERP, UI/UX, and custom invitations.",
+    "keywords": "digitiva, web development, ecommerce, erp systems, ui ux design, digital invitations, saudi arabia",
+    "ogAlt": "Digitiva Studio"
+  },
+  "nav": {
+    "work": "Work",
+    "services": "Services",
+    "invitations": "Invitations",
+    "contact": "Contact",
+    "startProject": "Start a Project",
+    "toggleTheme": "Toggle theme",
+    "toggleMenu": "Toggle menu",
+    "language": "Language"
+  },
+  "hero": {
+    "line1": "We Design",
+    "line2": "the Future",
+    "line3": "People Feel.",
+    "subtitle": "Strategy · AI · Interface craft — launching timeless digital experiences for founders and marketing leaders.",
+    "viewWork": "View Work",
+    "startProject": "Start a project →",
+    "stats": [
+      {
+        "val": "92",
+        "label": "NPS Score"
+      },
+      {
+        "val": "94%",
+        "label": "Retention"
+      },
+      {
+        "val": "6wk",
+        "label": "Avg. Delivery"
+      },
+      {
+        "val": "3+",
+        "label": "Markets"
+      }
+    ],
+    "cards": [
+      {
+        "label": "sensefragrance.com",
+        "category": "Luxury E-Commerce"
+      },
+      {
+        "label": "alanodalqadi.com",
+        "category": "Fashion Atelier"
+      }
+    ]
+  },
+  "marquee": {
+    "items": [
+      "E-Commerce Platforms",
+      "ERP Systems",
+      "Web Development",
+      "UI/UX Design",
+      "Digital Invitations",
+      "Brand Strategy",
+      "Growth Intelligence",
+      "Product Velocity"
+    ]
+  },
+  "about": {
+    "eyebrow": "About Digitiva",
+    "heading1": "Beyond digital presence —",
+    "heading2": "we architect resilient ecosystems for brands to thrive.",
+    "body": "Digitiva Studio blends strategy, emergent AI, and interface craft to launch timeless experiences — partnering with founders and marketing leaders to build platforms that perform, scale, and inspire.",
+    "stats": [
+      {
+        "target": 46,
+        "suffix": "%",
+        "label": "Faster speed to launch"
+      },
+      {
+        "target": 92,
+        "suffix": "",
+        "label": "NPS across partners"
+      },
+      {
+        "target": 94,
+        "suffix": "%",
+        "label": "Client retention rate"
+      },
+      {
+        "target": 6,
+        "suffix": "wk",
+        "label": "Average delivery cycle"
+      }
+    ]
+  },
+  "work": {
+    "eyebrow": "Selected Work",
+    "heading1": "Platforms we've",
+    "heading2": "built.",
+    "playing": "Playing",
+    "visitSite": "Visit site",
+    "viewCaseStudy": "View case study",
+    "projects": [
+      {
+        "num": "01",
+        "name": "Sense Fragrance",
+        "category": "Luxury E-Commerce",
+        "year": "2025",
+        "desc": "Immersive fragrance e-commerce — 63% session depth increase, 38% conversion uplift in 60 days.",
+        "metrics": [
+          {
+            "label": "Conv. Uplift",
+            "value": "+38%"
+          },
+          {
+            "label": "Session Depth",
+            "value": "+63%"
+          },
+          {
+            "label": "Stack",
+            "value": "Next.js"
+          }
+        ]
+      },
+      {
+        "num": "02",
+        "name": "El Raey Group",
+        "category": "Dress Atelier",
+        "year": "2026",
+        "desc": "Cinematic showcase for an elite dress atelier — curated gallery, tailored customer journey, Arabic-first design.",
+        "metrics": [
+          {
+            "label": "Inquiries",
+            "value": "+212%"
+          },
+          {
+            "label": "Lighthouse",
+            "value": "98"
+          },
+          {
+            "label": "Stack",
+            "value": "Next.js"
+          }
+        ]
+      },
+      {
+        "num": "03",
+        "name": "Express Maritime",
+        "category": "Marine & Maritime Supply",
+        "year": "2025",
+        "desc": "Professional Marine & Maritime Supply Services Across Egypt — full-catalogue platform connecting ports, vessels, and supply chains nationwide.",
+        "metrics": [
+          {
+            "label": "Products",
+            "value": "500+"
+          },
+          {
+            "label": "Ports",
+            "value": "All Egypt"
+          },
+          {
+            "label": "Stack",
+            "value": "React"
+          }
+        ]
+      },
+      {
+        "num": "04",
+        "name": "Alanood Al Qadi",
+        "category": "Fashion Atelier",
+        "year": "2025",
+        "desc": "Refined digital presence for a distinguished fashion designer — editorial photography direction & bespoke gallery.",
+        "metrics": [
+          {
+            "label": "Bounce",
+            "value": "−41%"
+          },
+          {
+            "label": "Avg. Session",
+            "value": "4m 12s"
+          },
+          {
+            "label": "Stack",
+            "value": "Next.js"
+          }
+        ]
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "What we believe",
+    "heading1": "Six beliefs.",
+    "heading2": "One standard.",
+    "steps": [
+      {
+        "n": "01",
+        "title": "Clarity First",
+        "desc": "We simplify the complex before we make it beautiful. Every decision starts with a clear understanding of the problem."
+      },
+      {
+        "n": "02",
+        "title": "No Shortcuts",
+        "desc": "Fast delivery, never at the cost of quality. We move quickly because we plan well — not because we cut corners."
+      },
+      {
+        "n": "03",
+        "title": "You're a Partner",
+        "desc": "We work with you, not for you. Your insight shapes our decisions at every stage — not just at the brief."
+      },
+      {
+        "n": "04",
+        "title": "Performance Obsessed",
+        "desc": "Every millisecond, every interaction counts. Speed and accessibility are built in from day one — never added at the end."
+      },
+      {
+        "n": "05",
+        "title": "Details Win",
+        "desc": "The things users don't notice consciously are what they feel. We sweat the micro so the macro lands with impact."
+      },
+      {
+        "n": "06",
+        "title": "Built to Last",
+        "desc": "We build for where you're going, not just where you are. Scalable architecture, clean code, and long-term thinking."
+      }
+    ]
+  },
+  "disciplines": {
+    "eyebrow": "Our Expertise",
+    "watermark": "Disciplines & Capabilities",
+    "headingPre": "Ideas need",
+    "headingMid": "multiple",
+    "headingPost": "forces.",
+    "items": [
+      {
+        "n": "01",
+        "total": "04",
+        "title": "Strategy",
+        "desc": "We align ambition, audience, and commercial goals before design decisions begin, so the product moves with intent instead of guesswork.",
+        "bullets": [
+          "Briefing & Workshop",
+          "Competitor Analysis",
+          "Brand Strategy",
+          "Roadmap"
+        ]
+      },
+      {
+        "n": "02",
+        "total": "04",
+        "title": "Design",
+        "desc": "Interfaces are shaped to feel premium at first glance and effortless after a minute, with rhythm, hierarchy, and restraint built into every screen.",
+        "bullets": [
+          "UI Systems",
+          "Prototypes",
+          "Art Direction",
+          "Motion Design"
+        ]
+      },
+      {
+        "n": "03",
+        "total": "04",
+        "title": "Build",
+        "desc": "We engineer resilient frontends and business platforms that stay fast under pressure, scale cleanly, and remain maintainable after launch.",
+        "bullets": [
+          "Next.js & React",
+          "Architecture",
+          "Performance",
+          "TypeScript"
+        ]
+      },
+      {
+        "n": "04",
+        "total": "04",
+        "title": "Launch",
+        "desc": "QA, performance, accessibility, SEO — then go live with a polished plan. We stay close through the first weeks to tune what matters.",
+        "bullets": [
+          "Go-live Plan",
+          "SEO & Speed",
+          "Accessibility",
+          "Support"
+        ]
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": "What we build",
+    "watermark": "Capabilities & Services",
+    "headingPre": "Our",
+    "headingEm": "capabilities",
+    "startProject": "Start a project",
+    "items": [
+      {
+        "num": "01",
+        "title": "E-Commerce Platforms",
+        "tag": "Next.js · Headless",
+        "year": "2024"
+      },
+      {
+        "num": "02",
+        "title": "ERP Systems",
+        "tag": "Custom ERP · API · Dashboards",
+        "year": "2025"
+      },
+      {
+        "num": "03",
+        "title": "Web Development",
+        "tag": "React · TypeScript · Node.js",
+        "year": "2025"
+      },
+      {
+        "num": "04",
+        "title": "UI/UX Design",
+        "tag": "Figma · Design Systems · Prototyping",
+        "year": "2025"
+      },
+      {
+        "num": "05",
+        "title": "Digital Invitations",
+        "tag": "Custom · Animated · RSVP",
+        "year": "2025"
+      }
+    ]
+  },
+  "invitations": {
+    "watermark": "Digital Celebration Experiences",
+    "headingPre": "Every celebration deserves a",
+    "headingEm": "grand entrance.",
+    "bodyMobile": "Bespoke digital invitations designed to impress from the very first tap — beautifully animated, multilingual, and fully functional with guest confirmation tools.",
+    "bodyDesktop": "Bespoke digital invitations designed to impress from the very first tap. Beautifully animated, multilingual, instantly shareable, and fully functional with guest confirmation tools.",
+    "createInvitation": "Create Your Invitation",
+    "viewShowcase": "View showcase →",
+    "viewShowcaseDesktop": "View live showcase",
+    "features": [
+      {
+        "title": "Custom Art Direction",
+        "desc": "Bespoke color palettes & typography"
+      },
+      {
+        "title": "Elegant Reveals",
+        "desc": "Smooth opening sequences"
+      },
+      {
+        "title": "RSVP & Guest Manager",
+        "desc": "Real-time verification dashboard"
+      },
+      {
+        "title": "Multilingual Layouts",
+        "desc": "Bilingual, Arabic-first defaults"
+      }
+    ],
+    "rsvpConfirmed": "RSVP Confirmed",
+    "rsvpGuests": "Ahmad + 2 guests",
+    "eventVenue": "Event Venue",
+    "eventVenueRoyal": "The Royal Garden",
+    "eventVenuePlaza": "The Royal Garden, Plaza A",
+    "instrumentalVows": "Instrumental Vows",
+    "backgroundLoop": "Background loop"
+  },
+  "faq": {
+    "eyebrow": "— FAQ",
+    "heading1": "Questions,",
+    "heading2": "answered.",
+    "footer": "Can't find what you're looking for? Reach out — we usually reply within a few hours.",
+    "items": [
+      {
+        "q": "How long does a typical project take?",
+        "a": "Marketing sites: 3–5 weeks. E-commerce platforms: 6–10 weeks. Custom ERP and complex web apps: 10–16 weeks. We share a precise timeline after the discovery phase."
+      },
+      {
+        "q": "Do you work with international brands?",
+        "a": "Yes — we work with clients from around the world. Our team operates remotely and on-site as needed, with bilingual delivery in English and Arabic."
+      },
+      {
+        "q": "What stack do you build on?",
+        "a": "Next.js, React, TypeScript, Tailwind, Framer Motion, Node, and custom integrations. For ERP we tailor the stack to your operational complexity. We pick boring, reliable technology that scales."
+      },
+      {
+        "q": "Do you handle design as well as development?",
+        "a": "Yes. We handle brand strategy, UI/UX, motion design, engineering, QA, and launch. One contract, one team — accountable end to end."
+      },
+      {
+        "q": "What does post-launch support look like?",
+        "a": "Monthly retainers cover bug fixes, performance monitoring, content updates, analytics review, and roadmap planning. Most clients stay with us for 12+ months after launch."
+      },
+      {
+        "q": "Can you take over an existing project?",
+        "a": "We can audit your codebase, design system, and infrastructure, then continue iterating. Many of our biggest wins start as rescues of stalled or underperforming products."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Get in touch",
+    "heading1": "Ready to build something",
+    "heading2": "extraordinary?",
+    "body": "Whether you have a project in mind or just want to explore what's possible, we'd love to hear from you. Let's create something that outlasts the moment.",
+    "basedIn": "Based in",
+    "locations": [
+      "Talkha, Dakahlia, Egypt",
+      "Damietta, Egypt"
+    ],
+    "form": {
+      "sendMessage": "Send us a message",
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "service": "Service needed",
+      "servicePlaceholder": "Select a service…",
+      "message": "Message",
+      "messagePlaceholder": "Tell us about your project…",
+      "services": [
+        "Web Development",
+        "UI/UX Design",
+        "E-Commerce",
+        "Branding",
+        "Digital Invitations",
+        "ERP System",
+        "Other"
+      ],
+      "error": "Something went wrong. Please try again or email us directly.",
+      "sending": "Sending…",
+      "send": "Send Message",
+      "successTitle": "Message sent!",
+      "successBody": "Thanks for reaching out. We'll get back to you within 24 hours.",
+      "sendAnother": "Send another message"
+    }
+  },
+  "footer": {
+    "tagline": "We design the future people feel.",
+    "locations": [
+      "Talkha, Dakahlia, Egypt",
+      "Damietta, Egypt"
+    ],
+    "rights": "All rights reserved.",
+    "builtWith": "Built with precision. Delivered with purpose.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  },
+  "legal": {
+    "backToHome": "Back to home",
+    "lastUpdated": "Last updated",
+    "updatedDate": "September 2026",
+    "privacy": {
+      "title": "Privacy",
+      "titleEm": "Policy",
+      "intro": "We respect your privacy and are committed to protecting the information you share with us. This policy explains what we collect through this website, how we use it, and the rights you have.",
+      "sections": [
+        {
+          "heading": "Information we collect",
+          "body": "When you contact us through the form on this site, we collect the name, email address, service interest, and message you choose to provide. We do not ask for payment details, government identifiers, or other sensitive personal data through this website."
+        },
+        {
+          "heading": "How we use your information",
+          "body": "We use the details you submit solely to respond to your enquiry, prepare proposals, and communicate about a potential or ongoing project. We do not sell, rent, or trade your personal information to anyone."
+        },
+        {
+          "heading": "Email delivery",
+          "body": "Messages sent through the contact form are delivered to our business inbox by email. Handling of that email is subject to the security and privacy practices of our email provider."
+        },
+        {
+          "heading": "Data retention",
+          "body": "We keep enquiry correspondence for as long as it is needed to serve you and to satisfy our legal and accounting obligations. You may ask us to delete your correspondence at any time."
+        },
+        {
+          "heading": "Cookies and local storage",
+          "body": "This website uses no advertising or tracking cookies. We store a single preference in your browser to remember the theme you chose, light or dark. That preference never leaves your device."
+        },
+        {
+          "heading": "Data security",
+          "body": "We apply reasonable technical and organisational measures to protect the information you send us. No method of transmission over the internet is completely secure, so we cannot guarantee absolute security."
+        },
+        {
+          "heading": "Your rights",
+          "body": "You may request access to, correction of, or deletion of the personal information you have shared with us. To exercise any of these rights, email us at digitivaa@gmail.com."
+        },
+        {
+          "heading": "Third-party links",
+          "body": "Our site links to client projects and social platforms that we do not control. We are not responsible for the privacy practices or the content of those external sites."
+        },
+        {
+          "heading": "Changes to this policy",
+          "body": "We may update this policy as our services evolve. The revision date shown at the top of this page always reflects the version currently in effect."
+        },
+        {
+          "heading": "Contact us",
+          "body": "If you have any question about this policy, email digitivaa@gmail.com and we will respond as soon as we can."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms of",
+      "titleEm": "Service",
+      "intro": "These terms set out the basis on which we provide our services and make this website available. Please read them carefully before using the site or engaging us on a project.",
+      "sections": [
+        {
+          "heading": "Acceptance of terms",
+          "body": "By using this website or engaging Digitiva for services, you agree to these terms. If you do not agree with them, please do not use the site or our services."
+        },
+        {
+          "heading": "Our services",
+          "body": "Digitiva provides digital design and development services, including e-commerce builds, ERP systems, web development, UI/UX design, and digital invitations. The scope of any engagement is defined in a separate written proposal or agreement."
+        },
+        {
+          "heading": "Enquiries and quotations",
+          "body": "Information published on this website, including examples of past work and indicative metrics, is provided for general guidance and does not constitute a binding offer. Pricing and timelines are confirmed only in a written proposal."
+        },
+        {
+          "heading": "Client responsibilities",
+          "body": "You agree to provide accurate information, timely feedback, and any content or access we need to deliver the work. Delays in providing these may affect the timelines we agreed."
+        },
+        {
+          "heading": "Intellectual property",
+          "body": "All content on this website, including the Digitiva name, logo, copy, and design, belongs to Digitiva unless stated otherwise. Ownership of project deliverables passes to the client as set out in the relevant project agreement, normally upon full payment."
+        },
+        {
+          "heading": "Payment",
+          "body": "Fees, instalments, and payment schedules are defined in each project agreement. Unless agreed otherwise, work begins once the initial payment has been received."
+        },
+        {
+          "heading": "Confidentiality",
+          "body": "We treat the business information you share with us as confidential and use it only to deliver the agreed work. We may showcase completed work in our portfolio unless you ask us in writing not to."
+        },
+        {
+          "heading": "Disclaimer",
+          "body": "This website and its content are provided as-is, without warranties of any kind. We do not guarantee that the site will always be available, uninterrupted, or free of errors."
+        },
+        {
+          "heading": "Limitation of liability",
+          "body": "To the fullest extent permitted by law, Digitiva is not liable for indirect, incidental, or consequential losses arising from use of this website. Liability arising from a project engagement is governed by that project agreement."
+        },
+        {
+          "heading": "Governing law",
+          "body": "These terms are governed by the laws of the Arab Republic of Egypt, and any dispute will be subject to the jurisdiction of its competent courts."
+        },
+        {
+          "heading": "Changes to these terms",
+          "body": "We may revise these terms from time to time. Continuing to use the site after changes are published means you accept the updated terms."
+        },
+        {
+          "heading": "Contact",
+          "body": "For any question about these terms, email digitivaa@gmail.com."
+        }
+      ]
+    }
+  }
+}

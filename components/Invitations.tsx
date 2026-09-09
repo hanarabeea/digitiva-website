@@ -1,28 +1,18 @@
 "use client";
 import React, { useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionValueEvent, MotionValue } from "framer-motion";
 import { ArrowRight, Check, MapPin, Music } from "lucide-react";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-const IMAGES = [
-  { src: "/inv1.jpg",  label: "Royal Wedding" },
-  { src: "/inv2.jpg",  label: "Corporate Gala" },
-  { src: "/inv3.jpg",  label: "Neon Party" },
-  { src: "/inv4.jpg",  label: "Minimal Gala" },
-  { src: "/inv5.jpg",  label: "Pastel Shower" },
-  { src: "/inv6.jpg",  label: "Engagement" },
-  { src: "/inv7.jpg",  label: "Garden Soirée" },
-  { src: "/inv8.jpg",  label: "" },
-  { src: "/inv9.jpg",  label: "Eid Celebration" },
+const IMAGE_SRCS = [
+  "/inv1.jpg", "/inv2.jpg", "/inv3.jpg", "/inv4.jpg",
+  "/inv5.jpg", "/inv6.jpg", "/inv7.jpg", "/inv8.jpg", "/inv9.jpg",
 ];
 
-const FEATURES = [
-  { title: "Custom Art Direction", desc: "Bespoke color palettes & typography" },
-  { title: "Elegant Reveals",      desc: "Smooth opening sequences" },
-  { title: "RSVP & Guest Manager", desc: "Real-time verification dashboard" },
-  { title: "Multilingual Layouts", desc: "Bilingual, Arabic-first defaults" },
-];
-
-export default function Invitations() {
+export default function Invitations({ dict }: { dict: Dictionary }) {
+  const IMAGES = IMAGE_SRCS.map((src) => ({ src, label: "" }));
+  const FEATURES = dict.invitations.features;
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex]   = useState(0);
   const [failedImages, setFailedImages] = useState<Set<number>>(new Set());
@@ -80,13 +70,12 @@ export default function Invitations() {
             className="font-space font-bold text-app leading-[1.05] tracking-tight"
             style={{ fontSize: "clamp(1.85rem, 7vw, 2.8rem)" }}
           >
-            Every celebration deserves a{" "}
-            <span className="italic font-serif font-normal text-[#F59E0B]">grand entrance.</span>
+            {dict.invitations.headingPre}{" "}
+            <span className="italic font-serif font-normal text-[#F59E0B]">{dict.invitations.headingEm}</span>
           </h2>
 
           <p className="text-app-muted text-sm leading-relaxed">
-            Bespoke digital invitations designed to impress from the very first tap —
-            beautifully animated, multilingual, and fully functional with guest confirmation tools.
+            {dict.invitations.bodyMobile}
           </p>
 
           <div className="grid grid-cols-2 gap-3">
@@ -105,15 +94,15 @@ export default function Invitations() {
               className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full font-semibold text-sm text-white"
               style={{ background: "linear-gradient(135deg, #F59E0B, #D97706, #B45309)" }}
             >
-              Create Your Invitation
-              <ArrowRight size={15} />
+              {dict.invitations.createInvitation}
+              <ArrowRight size={15} className="rtl:rotate-180" />
             </a>
             <a
               href="https://invitations.digitivaa.com"
               target="_blank" rel="noopener noreferrer"
               className="text-app-muted hover:text-app text-sm flex items-center gap-1.5"
             >
-              View showcase →
+              {dict.invitations.viewShowcase}
             </a>
           </div>
         </div>
@@ -131,7 +120,7 @@ export default function Invitations() {
               className="absolute top-1/2 -translate-y-1/2 whitespace-nowrap select-none watermark-text"
             >
               <span className="text-[14vw] font-space font-bold uppercase tracking-[-0.05em] text-app">
-                Digital Celebration Experiences
+                {dict.invitations.watermark}
               </span>
             </motion.div>
           </div>
@@ -152,17 +141,13 @@ export default function Invitations() {
               >
                 <div className="absolute top-5 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-full z-30" />
                 <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden bg-black border border-white/[0.04]">
-                  <div className="hidden">
-                    {IMAGES.map((img, i) => (
-                      <img key={i} src={img.src} alt=""
-                        onError={() => setFailedImages(prev => new Set(prev).add(i))} />
-                    ))}
-                  </div>
                   <motion.div style={{ y: imageStripY }} className="absolute inset-x-0 top-0 flex flex-col">
                     {visibleImages.map((img, i) => (
-                      <div key={img.src} className="w-full flex-shrink-0" style={{ height: `${SLOT_H}px` }}>
-                        <img src={img.src} alt={img.label || `Invitation ${i + 1}`}
-                          className="w-full h-full object-cover" />
+                      <div key={img.src} className="relative w-full flex-shrink-0" style={{ height: `${SLOT_H}px` }}>
+                        <Image src={img.src} alt={`${dict.invitations.headingEm} ${i + 1}`}
+                          fill sizes="(max-width: 1023px) 85vw, 300px"
+                          className="object-cover"
+                          onError={() => setFailedImages(prev => new Set(prev).add(IMAGE_SRCS.indexOf(img.src)))} />
                       </div>
                     ))}
                   </motion.div>
@@ -191,8 +176,8 @@ export default function Invitations() {
                   <Check size={11} strokeWidth={3} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-space font-bold text-app leading-none">RSVP Confirmed</p>
-                  <p className="text-[9px] text-emerald-400 mt-0.5">Ahmad + 2 guests</p>
+                  <p className="text-[10px] font-space font-bold text-app leading-none">{dict.invitations.rsvpConfirmed}</p>
+                  <p className="text-[9px] text-emerald-400 mt-0.5">{dict.invitations.rsvpGuests}</p>
                 </div>
               </div>
 
@@ -202,8 +187,8 @@ export default function Invitations() {
                   <MapPin size={11} />
                 </div>
                 <div>
-                  <p className="text-[10px] font-space font-bold text-app leading-none">Event Venue</p>
-                  <p className="text-[9px] text-app-dim mt-0.5">The Royal Garden</p>
+                  <p className="text-[10px] font-space font-bold text-app leading-none">{dict.invitations.eventVenue}</p>
+                  <p className="text-[9px] text-app-dim mt-0.5">{dict.invitations.eventVenueRoyal}</p>
                 </div>
               </div>
 
@@ -213,8 +198,8 @@ export default function Invitations() {
                   <Music size={11} className="animate-pulse" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-space font-bold text-app leading-none">Instrumental Vows</p>
-                  <p className="text-[9px] text-[#F59E0B] mt-0.5">Background loop</p>
+                  <p className="text-[10px] font-space font-bold text-app leading-none">{dict.invitations.instrumentalVows}</p>
+                  <p className="text-[9px] text-[#F59E0B] mt-0.5">{dict.invitations.backgroundLoop}</p>
                 </div>
               </div>
             </div>
@@ -231,14 +216,12 @@ export default function Invitations() {
                   className="font-space font-bold text-app leading-[1.05] tracking-tight"
                   style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}
                 >
-                  Every celebration deserves a{" "}
-                  <span className="italic font-serif font-normal text-[#F59E0B]">grand entrance.</span>
+                  {dict.invitations.headingPre}{" "}
+                  <span className="italic font-serif font-normal text-[#F59E0B]">{dict.invitations.headingEm}</span>
                 </h2>
 
                 <p className="text-app-muted text-lg leading-relaxed max-w-xl">
-                  Bespoke digital invitations designed to impress from the very first tap.
-                  Beautifully animated, multilingual, instantly shareable, and fully functional
-                  with guest confirmation tools.
+                  {dict.invitations.bodyDesktop}
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 max-w-lg">
@@ -257,16 +240,16 @@ export default function Invitations() {
                     className="group inline-flex items-center gap-3 px-8 py-4 rounded-full font-semibold text-white transition-all duration-500 hover:scale-105"
                     style={{ background: "linear-gradient(135deg, #F59E0B, #D97706, #B45309)" }}
                   >
-                    Create Your Invitation
-                    <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
+                    {dict.invitations.createInvitation}
+                    <ArrowRight size={18} className="rtl:rotate-180 group-hover:translate-x-1.5 rtl:group-hover:-translate-x-1.5 transition-transform" />
                   </a>
                   <a
                     href="https://invitations.digitivaa.com"
                     target="_blank" rel="noopener noreferrer"
                     className="text-app-muted hover:text-app text-sm font-medium flex items-center gap-2 group/link"
                   >
-                    View live showcase
-                    <span className="group-hover/link:translate-x-1 transition-transform">→</span>
+                    {dict.invitations.viewShowcaseDesktop}
+                    <span className="group-hover/link:translate-x-1 rtl:group-hover/link:-translate-x-1 rtl:inline-block rtl:rotate-180 transition-transform">→</span>
                   </a>
                 </div>
               </motion.div>
@@ -284,17 +267,13 @@ export default function Invitations() {
                   >
                     <div className="absolute top-6 left-1/2 -translate-x-1/2 w-28 h-6 bg-black rounded-full z-30" />
                     <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden bg-black border border-white/[0.04]">
-                      <div className="hidden">
-                        {IMAGES.map((img, i) => (
-                          <img key={i} src={img.src} alt=""
-                            onError={() => setFailedImages(prev => new Set(prev).add(i))} />
-                        ))}
-                      </div>
                       <motion.div style={{ y: imageStripY }} className="absolute inset-x-0 top-0 flex flex-col">
                         {visibleImages.map((img, i) => (
-                          <div key={img.src} className="w-full flex-shrink-0" style={{ height: `${SLOT_H}px` }}>
-                            <img src={img.src} alt={img.label || `Invitation ${i + 1}`}
-                              className="w-full h-full object-cover" />
+                          <div key={img.src} className="relative w-full flex-shrink-0" style={{ height: `${SLOT_H}px` }}>
+                            <Image src={img.src} alt={`${dict.invitations.headingEm} ${i + 1}`}
+                              fill sizes="(max-width: 1023px) 85vw, 300px"
+                              className="object-cover"
+                              onError={() => setFailedImages(prev => new Set(prev).add(IMAGE_SRCS.indexOf(img.src)))} />
                           </div>
                         ))}
                       </motion.div>
@@ -326,8 +305,8 @@ export default function Invitations() {
                       <Check size={14} strokeWidth={3} />
                     </div>
                     <div>
-                      <h5 className="font-space text-xs font-bold text-app">RSVP Confirmed</h5>
-                      <p className="text-[10px] text-emerald-400">Ahmad + 2 guests</p>
+                      <h5 className="font-space text-xs font-bold text-app">{dict.invitations.rsvpConfirmed}</h5>
+                      <p className="text-[10px] text-emerald-400">{dict.invitations.rsvpGuests}</p>
                     </div>
                   </motion.div>
 
@@ -340,8 +319,8 @@ export default function Invitations() {
                       <MapPin size={14} />
                     </div>
                     <div>
-                      <h5 className="font-space text-xs font-bold text-app">Event Venue</h5>
-                      <p className="text-[10px] text-app-dim">The Royal Garden, Plaza A</p>
+                      <h5 className="font-space text-xs font-bold text-app">{dict.invitations.eventVenue}</h5>
+                      <p className="text-[10px] text-app-dim">{dict.invitations.eventVenuePlaza}</p>
                     </div>
                   </motion.div>
 
@@ -354,8 +333,8 @@ export default function Invitations() {
                       <Music size={12} className="animate-pulse" />
                     </div>
                     <div className="flex-1 overflow-hidden">
-                      <h5 className="font-space text-[10px] font-bold text-app truncate">Instrumental Vows</h5>
-                      <p className="text-[9px] text-[#F59E0B]">Background loop</p>
+                      <h5 className="font-space text-[10px] font-bold text-app truncate">{dict.invitations.instrumentalVows}</h5>
+                      <p className="text-[9px] text-[#F59E0B]">{dict.invitations.backgroundLoop}</p>
                     </div>
                   </motion.div>
 

@@ -7,78 +7,20 @@ import {
   useSpring,
   AnimatePresence,
 } from "framer-motion";
+import Image from "next/image";
 import { ArrowUpRight, Play } from "lucide-react";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-const projects = [
-  {
-    num: "01",
-    name: "Sense Fragrance",
-    category: "Luxury E-Commerce",
-    year: "2025",
-    desc: "Immersive fragrance e-commerce — 63% session depth increase, 38% conversion uplift in 60 days.",
-    metrics: [
-      { label: "Conv. Uplift", value: "+38%" },
-      { label: "Session Depth", value: "+63%" },
-      { label: "Stack", value: "Next.js" },
-    ],
-    poster: "/sense-preview.png",
-    video: "/videos/sense.mp4",
-    url: "https://sensefragrance.com",
-    accent: "#3B82F6",
-  },
-  {
-    num: "02",
-    name: "El Raey Group",
-    category: "Dress Atelier",
-    year: "2026",
-    desc: "Cinematic showcase for an elite dress atelier — curated gallery, tailored customer journey, Arabic-first design.",
-    metrics: [
-      { label: "Inquiries", value: "+212%" },
-      { label: "Lighthouse", value: "98" },
-      { label: "Stack", value: "Next.js" },
-    ],
-    poster: "/raey-preview.png",
-    video: "/videos/raey.mp4",
-    url: "https://raeygroup.com",
-    accent: "#10B981",
-  },
-  {
-    num: "03",
-    name: "Express Maritime",
-    category: "Marine & Maritime Supply",
-    year: "2025",
-    desc: "Professional Marine & Maritime Supply Services Across Egypt — full-catalogue platform connecting ports, vessels, and supply chains nationwide.",
-    metrics: [
-      { label: "Products", value: "500+" },
-      { label: "Ports", value: "All Egypt" },
-      { label: "Stack", value: "React" },
-    ],
-    poster: "/express-preview.png",
-    video: "/videos/express.mp4",
-    url: "https://expressservicess.com",
-    accent: "#0EA5E9",
-  },
-  {
-    num: "04",
-    name: "Alanood Al Qadi",
-    category: "Fashion Atelier",
-    year: "2025",
-    desc: "Refined digital presence for a distinguished fashion designer — editorial photography direction & bespoke gallery.",
-    metrics: [
-      { label: "Bounce", value: "−41%" },
-      { label: "Avg. Session", value: "4m 12s" },
-      { label: "Stack", value: "Next.js" },
-    ],
-    poster: "/alanod-preview.png",
-    video: "/videos/alanood.mp4",
-    url: "https://alanodalqadi.com",
-    accent: "#8B5CF6",
-  },
+const PROJECT_META = [
+  { poster: "/sense-preview.png", video: "/videos/sense.mp4", url: "https://sensefragrance.com", accent: "#3B82F6" },
+  { poster: "/raey-preview.png", video: "/videos/raey.mp4", url: "https://raeygroup.com", accent: "#10B981" },
+  { poster: "/express-preview.png", video: "/videos/express.mp4", url: "https://expressservicess.com", accent: "#0EA5E9" },
+  { poster: "/alanod-preview.png", video: "/videos/alanood.mp4", url: "https://alanodalqadi.com", accent: "#8B5CF6" },
 ];
 
-type Project = (typeof projects)[0];
+type Project = Dictionary["work"]["projects"][number] & (typeof PROJECT_META)[number];
 
-function ProjectCard({ p, index }: { p: Project; index: number }) {
+function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dictionary }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -194,18 +136,20 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
             {/* Image area */}
             <div className="relative overflow-hidden" style={{ aspectRatio: "16/9" }}>
               <div className="absolute inset-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={p.poster}
                   alt={p.name}
-                  className="w-full h-full object-cover object-top"
+                  fill
+                  sizes="(max-width: 1023px) 100vw, 50vw"
+                  className="object-cover object-top"
                   style={{ opacity: playing ? 0 : 1, transition: "opacity 0.5s" }}
                 />
+                {/* No `poster` attribute: the optimized <Image> above already shows
+                    it, and a poster here would re-download the full-size original. */}
                 <video
                   ref={videoRef}
                   src={p.video}
-                  poster={p.poster}
-                  muted loop playsInline preload="metadata"
+                  muted loop playsInline preload="none"
                   className="absolute inset-0 w-full h-full object-cover"
                   style={{ opacity: playing ? 1 : 0, transition: "opacity 0.5s" }}
                 />
@@ -234,13 +178,13 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
                   }}
                 >
                   <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: p.accent }} />
-                  Playing
+                  {dict.work.playing}
                 </div>
               )}
 
               {/* Visit overlay */}
-              <div className="absolute bottom-4 right-4 z-20 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-black text-xs font-bold">
-                Visit site <ArrowUpRight size={13} />
+              <div className="absolute bottom-4 end-4 z-20 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-black text-xs font-bold">
+                {dict.work.visitSite} <ArrowUpRight size={13} className="rtl:rotate-90" />
               </div>
             </div>
           </a>
@@ -360,10 +304,10 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
             <Play size={13} fill={p.accent} color={p.accent} className="relative z-10 translate-x-[1px]" />
           </span>
           <span className="font-space font-semibold text-app-muted group-hover/cta:text-app text-sm flex items-center gap-1.5 transition-colors">
-            View case study
+            {dict.work.viewCaseStudy}
             <ArrowUpRight
               size={14}
-              className="opacity-40 group-hover/cta:opacity-100 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-all duration-300"
+              className="rtl:rotate-90 opacity-40 group-hover/cta:opacity-100 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-all duration-300"
             />
           </span>
         </motion.a>
@@ -372,8 +316,9 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   );
 }
 
-export default function Work() {
+export default function Work({ dict }: { dict: Dictionary }) {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const projects: Project[] = dict.work.projects.map((p, i) => ({ ...p, ...PROJECT_META[i] }));
   const [activeAccent, setActiveAccent] = useState(projects[0].accent);
 
   const { scrollYProgress } = useScroll({
@@ -394,7 +339,7 @@ export default function Work() {
       const idx = Math.min(Math.floor(v * projects.length), projects.length - 1);
       if (idx >= 0) setActiveAccent(projects[idx].accent);
     });
-  }, [scrollYProgress]);
+  }, [scrollYProgress, projects]);
 
   return (
     <section id="work" ref={sectionRef} className="bg-app border-t border-app relative overflow-hidden">
@@ -433,7 +378,7 @@ export default function Work() {
               className="works-eyebrow mb-4"
             >
               <span className="eyebrow-bar" aria-hidden="true" />
-              <span className="eyebrow-tag">[02]</span>Selected Work
+              <span className="eyebrow-tag">[02]</span>{dict.work.eyebrow}
             </motion.p>
             <motion.h2
               initial={{ y: 24 }}
@@ -443,7 +388,7 @@ export default function Work() {
               className="font-space font-bold text-app"
               style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", letterSpacing: "-0.03em", lineHeight: 1.08 }}
             >
-              Platforms we&apos;ve <span className="gradient-text">built.</span>
+              {dict.work.heading1} <span className="gradient-text">{dict.work.heading2}</span>
             </motion.h2>
           </div>
           <motion.p
@@ -459,7 +404,7 @@ export default function Work() {
         {/* Project list */}
         <div className="pb-24 md:pb-32">
           {projects.map((p, i) => (
-            <ProjectCard key={p.num} p={p} index={i} />
+            <ProjectCard key={p.num} p={p} index={i} dict={dict} />
           ))}
         </div>
       </div>

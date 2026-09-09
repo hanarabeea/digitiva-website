@@ -1,22 +1,28 @@
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import { MapPin } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
+import type { Dictionary, Locale } from "@/app/[lang]/dictionaries";
 
-const links = [
-  { label: "Work", href: "#work" },
-  { label: "Services", href: "#services" },
-  { label: "Invitations", href: "#invitations" },
-  { label: "Contact", href: "#contact" },
-];
-
-const scrollTo = (href: string) => {
-  document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-};
-
-export default function Footer() {
+export default function Footer({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const { theme } = useTheme();
+
+  // On the home page these are in-page anchors; from the legal pages the
+  // section doesn't exist, so navigate home and let the hash land on it.
+  const scrollTo = (href: string) => {
+    const target = document.querySelector(href);
+    if (target) target.scrollIntoView({ behavior: "smooth" });
+    else window.location.assign(`/${locale}${href}`);
+  };
+
+  const links = [
+    { label: dict.nav.work, href: "#work" },
+    { label: dict.nav.services, href: "#services" },
+    { label: dict.nav.invitations, href: "#invitations" },
+    { label: dict.nav.contact, href: "#contact" },
+  ];
 
   return (
     <footer className="relative border-t border-app bg-app-deep">
@@ -38,11 +44,12 @@ export default function Footer() {
                   src={theme === "night" ? "/logo-light.png" : "/logo-dark.png"}
                   alt="Digitiva"
                   fill
+                  sizes="110px"
                   className="object-contain"
                 />
               </div>
             </div>
-            <p className="text-app-faint text-sm">We design the future people feel.</p>
+            <p className="text-app-faint text-sm">{dict.footer.tagline}</p>
           </motion.div>
 
           {/* Nav */}
@@ -115,16 +122,34 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-app flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-app-dim text-sm">
-            © {new Date().getFullYear()} Digitiva. All rights reserved.
+            © {new Date().getFullYear()} Digitiva. {dict.footer.rights}
           </p>
           <div className="flex items-center gap-1.5 text-app-dim text-sm">
             <MapPin size={13} className="text-[#3B82F6] flex-shrink-0" />
-            Talkha, Dakahlia, Egypt
+            {dict.footer.locations.join(" · ")}
           </div>
-          <p className="text-app-dim text-sm">
-            Built with precision. Delivered with purpose.
-          </p>
+          <div className="flex items-center gap-4 text-sm">
+            <Link
+              href={`/${locale}/privacy`}
+              data-cursor-hover
+              className="text-app-dim hover:text-app transition-colors"
+            >
+              {dict.footer.privacy}
+            </Link>
+            <span className="text-app-faint" aria-hidden>·</span>
+            <Link
+              href={`/${locale}/terms`}
+              data-cursor-hover
+              className="text-app-dim hover:text-app transition-colors"
+            >
+              {dict.footer.terms}
+            </Link>
+          </div>
         </div>
+
+        <p className="text-app-dim text-sm text-center mt-6">
+          {dict.footer.builtWith}
+        </p>
       </div>
     </footer>
   );

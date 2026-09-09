@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { Mail, ArrowRight, MapPin, Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { useState } from "react";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
 function InstagramIcon({ size = 18 }: { size?: number }) {
   return (
@@ -47,17 +48,8 @@ function TikTokIcon({ size = 20 }: { size?: number }) {
   );
 }
 
-const SERVICES = [
-  "Web Development",
-  "UI/UX Design",
-  "E-Commerce",
-  "Branding",
-  "Digital Invitations",
-  "ERP System",
-  "Other",
-];
-
-function ContactForm() {
+function ContactForm({ dict }: { dict: Dictionary }) {
+  const f = dict.contact.form;
   const [form, setForm] = useState({ name: "", email: "", service: "", message: "" });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -89,15 +81,15 @@ function ContactForm() {
         <div className="w-16 h-16 rounded-full bg-[#10B981]/10 border border-[#10B981]/30 flex items-center justify-center">
           <CheckCircle size={32} className="text-[#10B981]" />
         </div>
-        <h3 className="font-space font-bold text-app text-2xl">Message sent!</h3>
+        <h3 className="font-space font-bold text-app text-2xl">{f.successTitle}</h3>
         <p className="text-app-muted text-sm max-w-xs leading-relaxed">
-          Thanks for reaching out. We&apos;ll get back to you within 24 hours.
+          {f.successBody}
         </p>
         <button
           onClick={() => setStatus("idle")}
           className="mt-2 text-sm text-app-dim hover:text-app transition-colors border-b border-app pb-0.5"
         >
-          Send another message
+          {f.sendAnother}
         </button>
       </div>
     );
@@ -117,27 +109,27 @@ function ContactForm() {
       <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full pointer-events-none"
         style={{ background: "radial-gradient(circle, rgba(59,130,246,0.12), transparent 70%)", filter: "blur(40px)" }} />
 
-      <p className="text-app-faint text-xs tracking-[0.2em] uppercase mb-2">Send us a message</p>
+      <p className="text-app-faint text-xs tracking-[0.2em] uppercase mb-2">{f.sendMessage}</p>
 
       {/* Name + Email row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">Name</label>
+          <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">{f.name}</label>
           <input
             type="text"
             required
-            placeholder="Your name"
+            placeholder={f.namePlaceholder}
             value={form.name}
             onChange={(e) => set("name", e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-app-card border border-app text-app text-sm placeholder:text-app-faint focus:outline-none focus:border-[#3B82F6]/60 transition-colors"
           />
         </div>
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">Email</label>
+          <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">{f.email}</label>
           <input
             type="email"
             required
-            placeholder="your@email.com"
+            placeholder={f.emailPlaceholder}
             value={form.email}
             onChange={(e) => set("email", e.target.value)}
             className="w-full px-4 py-3 rounded-xl bg-app-card border border-app text-app text-sm placeholder:text-app-faint focus:outline-none focus:border-[#3B82F6]/60 transition-colors"
@@ -147,26 +139,26 @@ function ContactForm() {
 
       {/* Service */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">Service needed</label>
+        <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">{f.service}</label>
         <select
           value={form.service}
           onChange={(e) => set("service", e.target.value)}
           className="w-full px-4 py-3 rounded-xl bg-app-card border border-app text-app text-sm focus:outline-none focus:border-[#3B82F6]/60 transition-colors appearance-none cursor-pointer"
         >
-          <option value="" className="bg-app-card">Select a service…</option>
-          {SERVICES.map((s) => (
-            <option key={s} value={s} className="bg-app-card">{s}</option>
+          <option value="" className="bg-app-card">{f.servicePlaceholder}</option>
+          {f.services.map((sv) => (
+            <option key={sv} value={sv} className="bg-app-card">{sv}</option>
           ))}
         </select>
       </div>
 
       {/* Message */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">Message</label>
+        <label className="text-xs text-app-dim font-space font-semibold uppercase tracking-wider">{f.message}</label>
         <textarea
           required
           rows={4}
-          placeholder="Tell us about your project…"
+          placeholder={f.messagePlaceholder}
           value={form.message}
           onChange={(e) => set("message", e.target.value)}
           className="w-full px-4 py-3 rounded-xl bg-app-card border border-app text-app text-sm placeholder:text-app-faint focus:outline-none focus:border-[#3B82F6]/60 transition-colors resize-none"
@@ -177,7 +169,7 @@ function ContactForm() {
       {status === "error" && (
         <div className="flex items-center gap-2 text-red-400 text-sm">
           <AlertCircle size={15} />
-          Something went wrong. Please try again or email us directly.
+          {f.error}
         </div>
       )}
 
@@ -189,16 +181,16 @@ function ContactForm() {
         style={{ background: "linear-gradient(135deg, #3B82F6, #06B6D4, #10B981, #3B82F6)", backgroundSize: "200% auto" }}
       >
         {status === "loading" ? (
-          <><Loader2 size={18} className="animate-spin" /> Sending…</>
+          <><Loader2 size={18} className="animate-spin" /> {f.sending}</>
         ) : (
-          <><Send size={16} /> Send Message</>
+          <><Send size={16} /> {f.send}</>
         )}
       </button>
     </form>
   );
 }
 
-export default function Contact() {
+export default function Contact({ dict }: { dict: Dictionary }) {
   return (
     <section id="contact" className="relative py-28 bg-app-deep overflow-hidden border-t border-app">
       {/* Background orbs */}
@@ -237,15 +229,14 @@ export default function Contact() {
             transition={{ duration: 0.8 }}
           >
             <p className="text-[#3B82F6] text-sm font-medium tracking-widest uppercase mb-4">
-              Get in touch
+              {dict.contact.eyebrow}
             </p>
             <h2 className="font-space text-4xl md:text-5xl font-bold text-app leading-tight mb-6">
-              Ready to build something{" "}
-              <span className="gradient-text">extraordinary?</span>
+              {dict.contact.heading1}{" "}
+              <span className="gradient-text">{dict.contact.heading2}</span>
             </h2>
             <p className="text-app-muted text-lg leading-relaxed mb-8">
-              Whether you have a project in mind or just want to explore what&apos;s possible,
-              we&apos;d love to hear from you. Let&apos;s create something that outlasts the moment.
+              {dict.contact.body}
             </p>
 
             {/* Email CTA */}
@@ -259,7 +250,7 @@ export default function Contact() {
             >
               <Mail size={18} />
               digitivaa@gmail.com
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              <ArrowRight size={16} className="rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
             </a>
 
             {/* Location */}
@@ -268,8 +259,10 @@ export default function Contact() {
                 <MapPin size={15} className="text-[#3B82F6]" />
               </div>
               <div>
-                <p className="text-xs text-app-dim uppercase tracking-widest mb-0.5">Based in</p>
-                <p className="text-app text-sm font-semibold font-space">Talkha, Dakahlia, Egypt</p>
+                <p className="text-xs text-app-dim uppercase tracking-widest mb-0.5">{dict.contact.basedIn}</p>
+                {dict.contact.locations.map((loc) => (
+                  <p key={loc} className="text-app text-sm font-semibold font-space">{loc}</p>
+                ))}
               </div>
             </div>
 
@@ -310,7 +303,7 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.15 }}
           >
-            <ContactForm />
+            <ContactForm dict={dict} />
           </motion.div>
         </div>
       </div>

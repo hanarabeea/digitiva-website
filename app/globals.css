@@ -8,8 +8,6 @@
 
 :root {
   --font-space: var(--font-space-grotesk);
-  --font-inter: var(--font-inter-var);
-  --font-playfair: var(--font-playfair);
 
   /* Night theme (default) */
   --bg: #05060F;
@@ -24,6 +22,45 @@
   --border-strong: rgba(255,255,255,0.12);
   --grid-line: rgba(59,130,246,0.06);
   --tile: rgba(255,255,255,0.02);
+}
+
+/* Arabic / RTL: layer Cairo ahead of the Latin fonts so Arabic glyphs render
+   with a proper Arabic typeface while any embedded Latin text (brand name,
+   numbers) still falls back to the existing Latin fonts. */
+html[lang="ar"] {
+  --font-space: var(--font-cairo), var(--font-space-grotesk), sans-serif;
+}
+
+.font-cairo {
+  font-family: var(--font-cairo), "Tajawal", sans-serif;
+}
+
+html[dir="rtl"] {
+  text-align: start;
+}
+
+/* Arabic script is cursive — negative/wide letter-spacing breaks glyph
+   joining, and it has no concept of uppercase. Neutralize both globally
+   for RTL rather than hunting down every Tailwind tracking-/uppercase
+   utility used on translated copy. */
+html[dir="rtl"] * {
+  letter-spacing: normal !important;
+  text-transform: none !important;
+}
+
+/* Arabic needs more vertical room than Latin: hamza sits above the cap height
+   and descenders drop further. The headings use Latin-tuned leading (0.92-1),
+   which clips those glyphs inside the overflow-hidden reveal masks. */
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3 {
+  line-height: 1.25 !important;
+}
+
+/* The hero headline has no clip mask, so it only needs enough room to keep
+   Arabic diacritics from colliding between lines — not the full 1.25. */
+html[dir="rtl"] .hero-title {
+  line-height: 1.1 !important;
 }
 
 html[data-theme="day"] {
@@ -85,6 +122,12 @@ body {
   background-size: 64px 64px;
 }
 
+/* Outline (stroke-only) display text — used by the hero watermark */
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--border-strong);
+}
+
 /* Gradient text */
 .gradient-text {
   background: linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #10B981 100%);
@@ -133,6 +176,17 @@ body {
 .orb-blue  { animation: floatA 12s ease-in-out infinite; }
 .orb-green { animation: floatB 15s ease-in-out infinite; }
 .orb-cyan  { animation: floatC 18s ease-in-out infinite; }
+
+/* These orbs carry a 70-110px blur AND animate scale() forever. Without a
+   dedicated compositing layer the browser re-rasterizes the whole blur every
+   frame, which is the single biggest source of scroll stutter on phones.
+   Promoting them lets it rasterize once and composite the transform on the GPU. */
+.orb-blue,
+.orb-green,
+.orb-cyan {
+  will-change: transform;
+  backface-visibility: hidden;
+}
 
 /* Shimmer */
 @keyframes shimmer {
@@ -190,8 +244,6 @@ body {
 
 /* Fonts */
 .font-space    { font-family: var(--font-space, 'Space Grotesk', sans-serif); }
-.font-inter    { font-family: var(--font-inter, 'Inter', sans-serif); }
-.font-playfair { font-family: var(--font-playfair, 'Playfair Display', Georgia, serif); }
 
 /* Theme-aware bg utilities */
 .bg-app       { background-color: var(--bg); }

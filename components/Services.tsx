@@ -1,74 +1,30 @@
 "use client";
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ShoppingBag, BarChart3, Globe, Layers, Sparkles } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-const services = [
-  {
-    num: "01",
-    icon: ShoppingBag,
-    title: "E-Commerce Platforms",
-    tag: "Shopify · Next.js · Headless",
-    year: "2024",
-    accent: "#3B82F6",
-  },
-  {
-    num: "02",
-    icon: BarChart3,
-    title: "ERP Systems",
-    tag: "Custom ERP · API · Dashboards",
-    year: "2025",
-    accent: "#06B6D4",
-  },
-  {
-    num: "03",
-    icon: Globe,
-    title: "Web Development",
-    tag: "React · TypeScript · Node.js",
-    year: "2025",
-    accent: "#8B5CF6",
-  },
-  {
-    num: "04",
-    icon: Layers,
-    title: "UI/UX Design",
-    tag: "Figma · Design Systems · Prototyping",
-    year: "2025",
-    accent: "#10B981",
-  },
-  {
-    num: "05",
-    icon: Sparkles,
-    title: "Digital Invitations",
-    tag: "Custom · Animated · RSVP",
-    year: "2025",
-    accent: "#F59E0B",
-  },
-];
+type ServiceItem = Dictionary["services"]["items"][number];
 
 function TextRollLetters({ text }: { text: string }) {
+  // Split by word, not character: splitting Arabic text into individual
+  // characters breaks cursive letter-joining and renders each letter in
+  // its isolated form. Whole words keep correct shaping in every script.
+  const words = text.split(" ");
   return (
     <span className="works-text-roll" aria-label={text}>
       <span className="works-text-roll-row">
-        {text.split("").map((char, i) => (
-          <span
-            key={i}
-            className="works-text-roll-letter"
-            style={{ "--i": i } as React.CSSProperties}
-          >
-            {char === " " ? "\u00A0" : char}
+        {words.map((word, i) => (
+          <span key={i} className="works-text-roll-letter" style={{ "--i": i } as React.CSSProperties}>
+            {word}
+            {i < words.length - 1 ? "\u00A0" : ""}
           </span>
         ))}
       </span>
       <span className="works-text-roll-row works-text-roll-clone" aria-hidden="true">
-        {text.split("").map((char, i) => (
-          <span
-            key={i}
-            className="works-text-roll-letter"
-            style={{ "--i": i } as React.CSSProperties}
-          >
-            {char === " " ? "\u00A0" : char}
+        {words.map((word, i) => (
+          <span key={i} className="works-text-roll-letter" style={{ "--i": i } as React.CSSProperties}>
+            {word}
+            {i < words.length - 1 ? "\u00A0" : ""}
           </span>
         ))}
       </span>
@@ -80,11 +36,9 @@ function WorkItem({
   s,
   index,
 }: {
-  s: (typeof services)[0];
+  s: ServiceItem;
   index: number;
 }) {
-  const Icon = s.icon;
-
   return (
     <motion.li
       initial={{ opacity: 0, y: 30 }}
@@ -123,7 +77,7 @@ function WorkItem({
   );
 }
 
-export default function Services() {
+export default function Services({ dict }: { dict: Dictionary }) {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -146,7 +100,7 @@ export default function Services() {
         <div className="sticky top-0 h-screen flex items-center">
           <motion.div style={{ x: bgTextX, opacity: bgTextOpacity }} className="whitespace-nowrap watermark-text">
             <span className="text-[16vw] font-space font-bold uppercase tracking-[-0.05em] text-app">
-              Capabilities & Services
+              {dict.services.watermark}
             </span>
           </motion.div>
         </div>
@@ -157,7 +111,7 @@ export default function Services() {
         <header className="works-head mb-14 md:mb-20">
           <p className="works-eyebrow">
             <span className="eyebrow-bar" aria-hidden="true" />
-            <span className="eyebrow-tag">[05]</span>What we build
+            <span className="eyebrow-tag">[05]</span>{dict.services.eyebrow}
           </p>
           <div className="overflow-hidden">
             <motion.h2
@@ -167,14 +121,14 @@ export default function Services() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
               className="works-title"
             >
-              Our <em>capabilities</em>.
+              {dict.services.headingPre} <em>{dict.services.headingEm}</em>.
             </motion.h2>
           </div>
         </header>
 
         {/* List */}
         <ul className="works-list">
-          {services.map((s, i) => (
+          {dict.services.items.map((s, i) => (
             <WorkItem key={s.num} s={s} index={i} />
           ))}
         </ul>
@@ -182,8 +136,8 @@ export default function Services() {
         {/* Footer CTA */}
         <div className="works-foot mt-10 flex justify-end">
           <a href="#contact" className="works-cta group">
-            <span>Start a project</span>
-            <span className="works-cta-arrow">→</span>
+            <span>{dict.services.startProject}</span>
+            <span className="works-cta-arrow rtl:inline-block rtl:rotate-180">→</span>
           </a>
         </div>
       </div>

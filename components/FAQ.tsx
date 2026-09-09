@@ -2,35 +2,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus } from "lucide-react";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-const faqs = [
-  {
-    q: "How long does a typical project take?",
-    a: "Marketing sites: 3–5 weeks. E-commerce platforms: 6–10 weeks. Custom ERP and complex web apps: 10–16 weeks. We share a precise timeline after the discovery phase.",
-  },
-  {
-    q: "Do you work with international brands?",
-    a: "Yes — we work with clients from around the world. Our team operates remotely and on-site as needed, with bilingual delivery in English and Arabic.",
-  },
-  {
-    q: "What stack do you build on?",
-    a: "Next.js, React, TypeScript, Tailwind, Framer Motion, Node, and custom integrations. For ERP we tailor the stack to your operational complexity. We pick boring, reliable technology that scales.",
-  },
-  {
-    q: "Do you handle design as well as development?",
-    a: "Yes. We handle brand strategy, UI/UX, motion design, engineering, QA, and launch. One contract, one team — accountable end to end.",
-  },
-  {
-    q: "What does post-launch support look like?",
-    a: "Monthly retainers cover bug fixes, performance monitoring, content updates, analytics review, and roadmap planning. Most clients stay with us for 12+ months after launch.",
-  },
-  {
-    q: "Can you take over an existing project?",
-    a: "We can audit your codebase, design system, and infrastructure, then continue iterating. Many of our biggest wins start as rescues of stalled or underperforming products.",
-  },
-];
-
-export default function FAQ() {
+export default function FAQ({ dict }: { dict: Dictionary }) {
+  const faqs = dict.faq.items;
   const [open, setOpen] = useState<number | null>(0);
 
   return (
@@ -44,7 +19,7 @@ export default function FAQ() {
               viewport={{ once: true }}
               className="text-xs tracking-[0.25em] uppercase text-[#3B82F6] mb-4"
             >
-              — FAQ
+              {dict.faq.eyebrow}
             </motion.p>
             <div className="overflow-hidden">
               <motion.h2
@@ -55,12 +30,12 @@ export default function FAQ() {
                 className="font-space font-bold text-app"
                 style={{ fontSize: "clamp(1.8rem, 4vw, 3.5rem)", letterSpacing: "-0.03em", lineHeight: 1 }}
               >
-                Questions, <br />
-                <span className="gradient-text">answered.</span>
+                {dict.faq.heading1} <br />
+                <span className="gradient-text">{dict.faq.heading2}</span>
               </motion.h2>
             </div>
             <p className="mt-5 text-app-muted text-sm leading-relaxed max-w-xs">
-              Can&apos;t find what you&apos;re looking for? Reach out — we usually reply within a few hours.
+              {dict.faq.footer}
             </p>
           </div>
 

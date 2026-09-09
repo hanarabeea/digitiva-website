@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import type { Dictionary } from "@/app/[lang]/dictionaries";
 
 function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -41,7 +42,7 @@ function Reveal({ children, delay = 0, className = "" }: {
   );
 }
 
-export default function About() {
+export default function About({ dict }: { dict: Dictionary }) {
   return (
     <section id="about" className="bg-app py-28 md:py-36 border-t border-app">
       <div className="max-w-[1400px] mx-auto px-8 md:px-14">
@@ -55,7 +56,7 @@ export default function About() {
           className="expertise-eyebrow mb-16"
         >
           <span className="eyebrow-bar" aria-hidden="true" />
-          <span className="eyebrow-tag">[01]</span>About Digitiva
+          <span className="eyebrow-tag">[01]</span>{dict.about.eyebrow}
         </motion.p>
 
         {/* Two-column layout */}
@@ -71,8 +72,8 @@ export default function About() {
               className="font-space font-bold text-app"
               style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)", letterSpacing: "-0.03em", lineHeight: 1.08 }}
             >
-              Beyond digital presence —{" "}
-              <span className="gradient-text">we architect resilient ecosystems for brands to thrive.</span>
+              {dict.about.heading1}{" "}
+              <span className="gradient-text">{dict.about.heading2}</span>
             </motion.h2>
           </div>
 
@@ -85,19 +86,12 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-app-muted text-base leading-relaxed"
             >
-              Digitiva Studio blends strategy, emergent AI, and interface craft to launch
-              timeless experiences — partnering with founders and marketing leaders to build
-              platforms that perform, scale, and inspire.
+              {dict.about.body}
             </motion.p>
 
             {/* Stats grid */}
             <div className="grid grid-cols-2 gap-y-10 gap-x-6 pt-4 border-t border-app">
-              {[
-                { target: 46, suffix: "%", label: "Faster speed to launch" },
-                { target: 92, suffix: "",  label: "NPS across partners" },
-                { target: 94, suffix: "%", label: "Client retention rate" },
-                { target: 6,  suffix: "wk", label: "Average delivery cycle" },
-              ].map((s) => (
+              {dict.about.stats.map((s) => (
                 <motion.div
                   key={s.label}
                   initial={{ opacity: 0, y: 20 }}
