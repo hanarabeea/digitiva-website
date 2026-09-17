@@ -41,11 +41,6 @@ export async function generateMetadata({
     title: dict.meta.title,
     description: dict.meta.description,
     keywords: dict.meta.keywords,
-    icons: {
-      icon: "/logo-light.png",
-      shortcut: "/logo-light.png",
-      apple: "/logo-light.png",
-    },
     metadataBase: new URL("https://www.digitivaa.com"),
     alternates: {
       canonical: `/${locale}`,

@@ -1,7 +1,19 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, useSpring } from "framer-motion";
+import Image from "next/image";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
+
+// Shown exactly as supplied — no dimming.
+const HAMID_LOGO = "/logos/hamid-badge.png";
+const ORIGINAL_LOGOS = new Set([HAMID_LOGO, "/logos/pizza.png"]);
+
+// White marks: white on the dark theme, flipped to black on the light theme.
+const THEME_INVERT_LOGOS = new Set([
+  "/logos/raey.png",
+  "/logos/sense.png",
+  "/logos/alanod.png",
+]);
 
 function CountUp({ target, suffix = "" }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -43,8 +55,21 @@ function Reveal({ children, delay = 0, className = "" }: {
 }
 
 export default function About({ dict }: { dict: Dictionary }) {
+  const logos = dict.clients.items;
+  // Triple the logos for seamless infinite scroll
+  const repeated = [...logos, ...logos, ...logos, ...logos];
+
+  // Scroll parallax for the logo strip: drifts sideways and lifts slightly as it
+  // passes through the viewport, layered on top of the continuous marquee.
+  const stripRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: stripProgress } = useScroll({ target: stripRef, offset: ["start end", "end start"] });
+  const stripSmooth = useSpring(stripProgress, { stiffness: 60, damping: 20 });
+  const stripX = useTransform(stripSmooth, [0, 1], ["8%", "-8%"]);
+  const stripY = useTransform(stripSmooth, [0, 1], [30, -30]);
+  const stripScale = useTransform(stripSmooth, [0, 0.5, 1], [0.94, 1, 0.94]);
+
   return (
-    <section id="about" className="bg-app py-28 md:py-36 border-t border-app">
+    <section id="about" className="bg-app pt-28 md:pt-36 border-t border-app">
       <div className="max-w-[1400px] mx-auto px-8 md:px-14">
 
         {/* Label */}
@@ -112,6 +137,80 @@ export default function About({ dict }: { dict: Dictionary }) {
           </div>
         </div>
       </div>
+
+      {/* ── Client Logo Marquee Strip (Continuous, smooth, seamlessly blends with dark theme) ── */}
+      <div ref={stripRef} className="mt-20 md:mt-28 py-8 md:py-10 border-y border-white/[0.08] relative overflow-hidden select-none [direction:ltr]">
+        {/* Left & Right gradient edge fades that blend into the theme background */}
+        <div
+          className="pointer-events-none absolute left-0 top-0 bottom-0 w-20 sm:w-36 md:w-48 z-10"
+          style={{
+            background: "linear-gradient(to right, var(--bg) 0%, transparent 100%)",
+          }}
+        />
+        <div
+          className="pointer-events-none absolute right-0 top-0 bottom-0 w-20 sm:w-36 md:w-48 z-10"
+          style={{
+            background: "linear-gradient(to left, var(--bg) 0%, transparent 100%)",
+          }}
+        />
+
+        <motion.div className="flex w-full" style={{ display: "flex", x: stripX, y: stripY, scale: stripScale }}>
+          <motion.div
+            className="flex flex-row flex-nowrap shrink-0 items-center"
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "nowrap",
+              alignItems: "center",
+              willChange: "transform",
+            }}
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{
+              duration: 28,
+              ease: "linear",
+              repeat: Infinity,
+              repeatType: "loop",
+            }}
+          >
+            {repeated.map((client, i) => (
+              <div
+                key={`logo-${i}`}
+                className="flex items-center justify-center mx-8 sm:mx-12 md:mx-14 shrink-0"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <div
+                  className={`w-[120px] sm:w-[145px] md:w-[165px] h-[46px] sm:h-[52px] md:h-[58px] relative flex items-center justify-center ${
+                    ORIGINAL_LOGOS.has(client.logo)
+                      ? ""
+                      : "opacity-75 hover:opacity-100 transition-opacity duration-300"
+                  }`}
+                >
+                  {client.logo === HAMID_LOGO ? (
+                    <>
+                      <Image src="/logos/hamid-badge-dark.png" alt={client.name} fill sizes="180px" className="object-contain theme-night-only" />
+                      <Image src="/logos/hamid-badge-light.png" alt="" aria-hidden fill sizes="180px" className="object-contain theme-day-only" />
+                    </>
+                  ) : (
+                    <Image
+                      src={client.logo}
+                      alt={client.name}
+                      fill
+                      sizes="180px"
+                      className={`object-contain ${THEME_INVERT_LOGOS.has(client.logo) ? "logo-knockout" : ""}`}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </div>
     </section>
   );
 }
+

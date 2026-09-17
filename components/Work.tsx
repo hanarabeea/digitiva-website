@@ -12,10 +12,10 @@ import { ArrowUpRight, Play } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 
 const PROJECT_META = [
-  { poster: "/sense-preview.png", video: "/videos/sense.mp4", url: "https://sensefragrance.com", accent: "#3B82F6" },
   { poster: "/raey-preview.png", video: "/videos/raey.mp4", url: "https://raeygroup.com", accent: "#10B981" },
   { poster: "/express-preview.png", video: "/videos/express.mp4", url: "https://expressservicess.com", accent: "#0EA5E9" },
   { poster: "/alanod-preview.png", video: "/videos/alanood.mp4", url: "https://alanodalqadi.com", accent: "#8B5CF6" },
+  { poster: "/hamid-preview.png", video: "/videos/hamid.mp4", url: "https://hamidafandi.com", accent: "#B45309" },
 ];
 
 type Project = Dictionary["work"]["projects"][number] & (typeof PROJECT_META)[number];

@@ -19,7 +19,6 @@
     "line1": "We Design",
     "line2": "the Future",
     "line3": "People Feel.",
-    "subtitle": "Strategy · AI · Interface craft — launching timeless digital experiences for founders and marketing leaders.",
     "viewWork": "View Work",
     "startProject": "Start a project →",
     "stats": [
@@ -36,18 +35,8 @@
         "label": "Avg. Delivery"
       },
       {
-        "val": "3+",
+        "val": "10+",
         "label": "Markets"
-      }
-    ],
-    "cards": [
-      {
-        "label": "sensefragrance.com",
-        "category": "Luxury E-Commerce"
-      },
-      {
-        "label": "alanodalqadi.com",
-        "category": "Fashion Atelier"
       }
     ]
   },
@@ -91,6 +80,68 @@
       }
     ]
   },
+  "clients": {
+    "eyebrow": "Trusted By Industry Leaders",
+    "watermark": "Partners & Clients",
+    "heading1": "Brands that trust",
+    "heading2": "our craft.",
+    "body": "From luxury fragrance and bespoke couture to maritime logistics and healthcare, we partner with industry leaders to architect digital experiences that captivate and perform.",
+    "badge": "Client Network",
+    "partnerCount": "8+ Visionary Brands",
+    "satisfaction": "100% Collaborative Success",
+    "pauseHint": "Hover to pause & inspect",
+    "cta": "Start a project with us →",
+    "items": [
+      {
+        "name": "Sense Fragrances",
+        "category": "Luxury Perfumery & E-Commerce",
+        "logo": "/logos/sense.png",
+        "tag": "E-Commerce"
+      },
+      {
+        "name": "Raey Haute Couture",
+        "category": "Bespoke Fashion & Atelier",
+        "logo": "/logos/raey.png",
+        "tag": "Atelier"
+      },
+      {
+        "name": "Express Maritime",
+        "category": "Marine & Vessel Supply Services",
+        "logo": "/logos/express.png",
+        "tag": "Logistics"
+      },
+      {
+        "name": "Alanood Al Qadi",
+        "category": "Haute Couture & Atelier",
+        "logo": "/logos/alanod.png",
+        "tag": "Fashion"
+      },
+      {
+        "name": "Al-Barq",
+        "category": "Trade & Technical Supplies",
+        "logo": "/logos/barq.png",
+        "tag": "Supplies"
+      },
+      {
+        "name": "Hashim Pharmacy",
+        "category": "Healthcare & Pharmaceuticals",
+        "logo": "/logos/hashim.png",
+        "tag": "Healthcare"
+      },
+      {
+        "name": "Pizza Art",
+        "category": "Culinary Arts & Dining Franchise",
+        "logo": "/logos/pizza.png",
+        "tag": "Food & Beverage"
+      },
+      {
+        "name": "Abu Hamid",
+        "category": "Commercial & Retail Enterprise",
+        "logo": "/logos/hamid-badge.png",
+        "tag": "Commercial"
+      }
+    ]
+  },
   "work": {
     "eyebrow": "Selected Work",
     "heading1": "Platforms we've",
@@ -101,27 +152,6 @@
     "projects": [
       {
         "num": "01",
-        "name": "Sense Fragrance",
-        "category": "Luxury E-Commerce",
-        "year": "2025",
-        "desc": "Immersive fragrance e-commerce — 63% session depth increase, 38% conversion uplift in 60 days.",
-        "metrics": [
-          {
-            "label": "Conv. Uplift",
-            "value": "+38%"
-          },
-          {
-            "label": "Session Depth",
-            "value": "+63%"
-          },
-          {
-            "label": "Stack",
-            "value": "Next.js"
-          }
-        ]
-      },
-      {
-        "num": "02",
         "name": "El Raey Group",
         "category": "Dress Atelier",
         "year": "2026",
@@ -142,7 +172,7 @@
         ]
       },
       {
-        "num": "03",
+        "num": "02",
         "name": "Express Maritime",
         "category": "Marine & Maritime Supply",
         "year": "2025",
@@ -163,7 +193,7 @@
         ]
       },
       {
-        "num": "04",
+        "num": "03",
         "name": "Alanood Al Qadi",
         "category": "Fashion Atelier",
         "year": "2025",
@@ -176,6 +206,27 @@
           {
             "label": "Avg. Session",
             "value": "4m 12s"
+          },
+          {
+            "label": "Stack",
+            "value": "Next.js"
+          }
+        ]
+      },
+      {
+        "num": "04",
+        "name": "Hamid Afandi",
+        "category": "Specialty Coffee & E-Commerce",
+        "year": "2026",
+        "desc": "Bilingual home for a heritage Egyptian specialty coffee brand — online store, full menu, branch locator and customer accounts.",
+        "metrics": [
+          {
+            "label": "Store",
+            "value": "Online"
+          },
+          {
+            "label": "Languages",
+            "value": "AR / EN"
           },
           {
             "label": "Stack",
@@ -395,6 +446,7 @@
       "Talkha, Dakahlia, Egypt",
       "Damietta, Egypt"
     ],
+    "whatsapp": "WhatsApp",
     "form": {
       "sendMessage": "Send us a message",
       "name": "Name",

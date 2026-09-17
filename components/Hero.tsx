@@ -1,7 +1,6 @@
 "use client";
-import { useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import Image from "next/image";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLenis } from "./SmoothScroll";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
@@ -24,48 +23,6 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   );
 }
 
-/* Floating card that shows a project preview */
-function FloatingCard({
-  src, alt, label, category, rotate, width, height,
-  motionX, motionY,
-}: {
-  src: string; alt: string; label: string; category: string;
-  rotate: number; width: number; height: number;
-  motionX: ReturnType<typeof useSpring>;
-  motionY: ReturnType<typeof useSpring>;
-}) {
-  return (
-    <motion.div
-      style={{ x: motionX, y: motionY, rotate }}
-      initial={{ opacity: 0, scale: 0.85 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.2, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
-      className="absolute pointer-events-none select-none"
-    >
-      <div
-        className="rounded-2xl overflow-hidden gradient-border shadow-2xl"
-        style={{ width, height }}
-      >
-        {/* Browser chrome strip */}
-        <div className="flex items-center gap-1.5 px-3 py-2 bg-[#0A0D1A] border-b border-white/5">
-          <div className="w-2 h-2 rounded-full bg-[#FF5F57]/80" />
-          <div className="w-2 h-2 rounded-full bg-[#FEBC2E]/80" />
-          <div className="w-2 h-2 rounded-full bg-[#28C840]/80" />
-          <div className="flex-1 mx-2 rounded bg-white/5 px-2 py-0.5 text-[9px] text-app-dim truncate">
-            {label}
-          </div>
-        </div>
-        <div className="relative" style={{ height: height - 28 }}>
-          <Image src={src} alt={alt} fill sizes="240px" className="object-cover" />
-          <div className="absolute bottom-0 left-0 right-0 px-3 py-2 bg-gradient-to-t from-[#030712]/90 to-transparent">
-            <p className="text-[9px] text-[#94A3B8] uppercase tracking-widest">{category}</p>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 export default function Hero({ dict }: { dict: Dictionary }) {
   const ref = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
@@ -75,30 +32,7 @@ export default function Hero({ dict }: { dict: Dictionary }) {
   const gridY    = useTransform(scrollYProgress, [0, 1], ["0%", "70%"]);
   const orbY     = useTransform(scrollYProgress, [0, 1], ["0%", "45%"]);
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const card1Y   = useTransform(scrollYProgress, [0, 1], ["0%", "-35%"]);
-  const card2Y   = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
   const opacity  = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
-
-  /* ── Mouse parallax ── */
-  const rawX = useMotionValue(0);
-  const rawY = useMotionValue(0);
-  const sx = useSpring(rawX, { stiffness: 55, damping: 22 });
-  const sy = useSpring(rawY, { stiffness: 55, damping: 22 });
-
-  // Two cards move in opposite directions
-  const card1mx = useTransform(sx, (v) => v * -28);
-  const card1my = useTransform(sy, (v) => v * -28);
-  const card2mx = useTransform(sx, (v) => v * 22);
-  const card2my = useTransform(sy, (v) => v * 22);
-
-  useEffect(() => {
-    const move = (e: MouseEvent) => {
-      rawX.set((e.clientX / window.innerWidth - 0.5));
-      rawY.set((e.clientY / window.innerHeight - 0.5));
-    };
-    window.addEventListener("mousemove", move);
-    return () => window.removeEventListener("mousemove", move);
-  }, [rawX, rawY]);
 
   return (
     <section
@@ -171,43 +105,6 @@ export default function Hero({ dict }: { dict: Dictionary }) {
         ))}
       </div>
 
-      {/* ── Floating project cards (scroll + mouse parallax combined) ── */}
-      {/* Card 1 — Sense Fragrance — top right */}
-      <motion.div
-        style={{ y: card1Y }}
-        className="absolute top-[12%] right-[4%] z-20 hidden lg:block"
-      >
-        <FloatingCard
-          src="/sense-preview.png"
-          alt="Sense Fragrance"
-          label={dict.hero.cards[0].label}
-          category={dict.hero.cards[0].category}
-          rotate={-9}
-          width={240}
-          height={165}
-          motionX={card1mx}
-          motionY={card1my}
-        />
-      </motion.div>
-
-      {/* Card 2 — Fashion — bottom left */}
-      <motion.div
-        style={{ y: card2Y }}
-        className="absolute bottom-[18%] left-[3%] z-20 hidden lg:block"
-      >
-        <FloatingCard
-          src="/sense-preview.png"
-          alt="Alanood Al Qadi"
-          label={dict.hero.cards[1].label}
-          category={dict.hero.cards[1].category}
-          rotate={8}
-          width={200}
-          height={260}
-          motionX={card2mx}
-          motionY={card2my}
-        />
-      </motion.div>
-
       {/* ── Main content ── */}
       <motion.div
         style={{ y: contentY, opacity }}
@@ -222,19 +119,11 @@ export default function Hero({ dict }: { dict: Dictionary }) {
           >
             <Reveal delay={0.3}><span>{dict.hero.line1}</span></Reveal>
             <Reveal delay={0.46}><span>{dict.hero.line2}</span></Reveal>
-            <Reveal delay={0.62}><span className="text-[#3B82F6]">{dict.hero.line3}</span></Reveal>
+            <Reveal delay={0.62}><span className="text-[#3B82F6]">{dict.hero.line3.replace(/ (\S+)$/, " $1")}</span></Reveal>
           </h1>
 
           {/* Sub-row */}
-          <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-end gap-8 justify-between">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.95 }}
-              className="max-w-xs text-app-faint text-sm leading-relaxed"
-            >
-              {dict.hero.subtitle}
-            </motion.p>
-
+          <div className="mt-10 flex flex-col sm:flex-row items-start sm:items-end gap-8 sm:justify-end">
             <motion.div
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 1.05 }}
