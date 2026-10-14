@@ -16,8 +16,8 @@ const PROJECT_META: { poster: string; video?: string; url: string; accent: strin
   { poster: "/express-preview.png", video: "/videos/express.mp4", url: "https://expressservicess.com", accent: "#0EA5E9" },
   { poster: "/alanod-preview.png", video: "/videos/alanood.mp4", url: "https://alanodalqadi.com", accent: "#8B5CF6" },
   { poster: "/hamid-preview.png", video: "/videos/hamid.mp4", url: "https://hamidafandi.com", accent: "#B45309" },
-  { poster: "/verella-preview.webp", url: "https://verellabrands.com/en", accent: "#C9A27E" },
-  { poster: "/albarq-preview.webp", url: "https://albarq.digitivaa.com/en", accent: "#C62828" },
+  { poster: "/verella-preview.webp", url: "https://verellabrands.com/en", accent: "#C9A96A" },
+  { poster: "/albarq-preview.webp", url: "https://albarq.digitivaa.com/en", accent: "#AE171C" },
 ];
 
 type Project = Dictionary["work"]["projects"][number] & (typeof PROJECT_META)[number];

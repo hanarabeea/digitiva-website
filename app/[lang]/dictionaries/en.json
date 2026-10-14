@@ -237,13 +237,13 @@
       {
         "num": "05",
         "name": "Verella",
-        "category": "Perfume E-Commerce",
+        "category": "Multi-Brand Retail & E-Commerce",
         "year": "2026",
-        "desc": "Bilingual online store for original perfume brands — cinematic collection showcases for women's and men's fragrances and gift boxes, with cart and customer accounts.",
+        "desc": "Bilingual storefront and admin dashboard for a premium multi-brand store — fragrances, musk & oud, personal care and fashion, with cart, checkout, customer accounts and full order management.",
         "metrics": [
           {
-            "label": "Store",
-            "value": "Online"
+            "label": "Admin",
+            "value": "Dashboard"
           },
           {
             "label": "Languages",
@@ -258,17 +258,17 @@
       {
         "num": "06",
         "name": "Al-Barq",
-        "category": "Hospitality & B2B Supply",
+        "category": "B2B Hospitality Supply",
         "year": "2026",
-        "desc": "Supply partner platform for hotels, restaurants and hospitals across Hurghada and the Red Sea — full product catalogue, services and fast quote requests.",
+        "desc": "Bilingual site for a B2B supplier to hotels, restaurants, cafés, companies and hospitals across Hurghada and the Red Sea — a 72-item catalogue in six categories, with quote requests sent straight to WhatsApp.",
         "metrics": [
           {
             "label": "Products",
-            "value": "72+"
+            "value": "72"
           },
           {
-            "label": "Delivery",
-            "value": "24–48h"
+            "label": "Categories",
+            "value": "6"
           },
           {
             "label": "Stack",
