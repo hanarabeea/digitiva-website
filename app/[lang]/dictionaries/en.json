@@ -152,18 +152,18 @@
     "projects": [
       {
         "num": "01",
-        "name": "El Raey Group",
-        "category": "Dress Atelier",
+        "name": "Verella",
+        "category": "Multi-Brand Retail & E-Commerce",
         "year": "2026",
-        "desc": "Cinematic showcase for an elite dress atelier — curated gallery, tailored customer journey, Arabic-first design.",
+        "desc": "Bilingual storefront and admin dashboard for a premium multi-brand store — fragrances, musk & oud, personal care and fashion, with cart, checkout, customer accounts and full order management.",
         "metrics": [
           {
-            "label": "Inquiries",
-            "value": "+212%"
+            "label": "Admin",
+            "value": "Dashboard"
           },
           {
-            "label": "Lighthouse",
-            "value": "98"
+            "label": "Languages",
+            "value": "AR / EN"
           },
           {
             "label": "Stack",
@@ -236,18 +236,18 @@
       },
       {
         "num": "05",
-        "name": "Verella",
-        "category": "Multi-Brand Retail & E-Commerce",
+        "name": "El Raey Group",
+        "category": "Dress Atelier",
         "year": "2026",
-        "desc": "Bilingual storefront and admin dashboard for a premium multi-brand store — fragrances, musk & oud, personal care and fashion, with cart, checkout, customer accounts and full order management.",
+        "desc": "Cinematic showcase for an elite dress atelier — curated gallery, tailored customer journey, Arabic-first design.",
         "metrics": [
           {
-            "label": "Admin",
-            "value": "Dashboard"
+            "label": "Inquiries",
+            "value": "+212%"
           },
           {
-            "label": "Languages",
-            "value": "AR / EN"
+            "label": "Lighthouse",
+            "value": "98"
           },
           {
             "label": "Stack",

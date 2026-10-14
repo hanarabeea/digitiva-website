@@ -12,11 +12,11 @@ import { ArrowUpRight, Play } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 
 const PROJECT_META: { poster: string; video?: string; url: string; accent: string }[] = [
-  { poster: "/raey-preview.png", video: "/videos/raey.mp4", url: "https://raeygroup.com", accent: "#10B981" },
+  { poster: "/verella-preview.webp", url: "https://verellabrands.com/en", accent: "#C9A96A" },
   { poster: "/express-preview.png", video: "/videos/express.mp4", url: "https://expressservicess.com", accent: "#0EA5E9" },
   { poster: "/alanod-preview.png", video: "/videos/alanood.mp4", url: "https://alanodalqadi.com", accent: "#8B5CF6" },
   { poster: "/hamid-hero.webp", video: "/videos/hamid.mp4", url: "https://hamidafandi.com", accent: "#B45309" },
-  { poster: "/verella-preview.webp", url: "https://verellabrands.com/en", accent: "#C9A96A" },
+  { poster: "/raey-preview.png", video: "/videos/raey.mp4", url: "https://raeygroup.com", accent: "#10B981" },
   { poster: "/albarq-hero.webp", url: "https://albarq.digitivaa.com/en", accent: "#AE171C" },
 ];
 
