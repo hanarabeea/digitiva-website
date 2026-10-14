@@ -11,11 +11,13 @@ import Image from "next/image";
 import { ArrowUpRight, Play } from "lucide-react";
 import type { Dictionary } from "@/app/[lang]/dictionaries";
 
-const PROJECT_META = [
+const PROJECT_META: { poster: string; video?: string; url: string; accent: string }[] = [
   { poster: "/raey-preview.png", video: "/videos/raey.mp4", url: "https://raeygroup.com", accent: "#10B981" },
   { poster: "/express-preview.png", video: "/videos/express.mp4", url: "https://expressservicess.com", accent: "#0EA5E9" },
   { poster: "/alanod-preview.png", video: "/videos/alanood.mp4", url: "https://alanodalqadi.com", accent: "#8B5CF6" },
   { poster: "/hamid-preview.png", video: "/videos/hamid.mp4", url: "https://hamidafandi.com", accent: "#B45309" },
+  { poster: "/verella-preview.webp", url: "https://verellabrands.com/en", accent: "#C9A27E" },
+  { poster: "/albarq-preview.webp", url: "https://albarq.digitivaa.com/en", accent: "#C62828" },
 ];
 
 type Project = Dictionary["work"]["projects"][number] & (typeof PROJECT_META)[number];
@@ -129,7 +131,7 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
               <span className="w-2.5 h-2.5 rounded-full bg-[#FFBD2E]" />
               <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
               <span className="ml-3 text-[11px] text-app-dim tracking-wide">
-                {p.url.replace("https://", "")}
+                {new URL(p.url).host}
               </span>
             </div>
 
@@ -146,13 +148,15 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
                 />
                 {/* No `poster` attribute: the optimized <Image> above already shows
                     it, and a poster here would re-download the full-size original. */}
-                <video
-                  ref={videoRef}
-                  src={p.video}
-                  muted loop playsInline preload="none"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ opacity: playing ? 1 : 0, transition: "opacity 0.5s" }}
-                />
+                {p.video && (
+                  <video
+                    ref={videoRef}
+                    src={p.video}
+                    muted loop playsInline preload="none"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    style={{ opacity: playing ? 1 : 0, transition: "opacity 0.5s" }}
+                  />
+                )}
               </div>
 
               {/* Shine sweep */}

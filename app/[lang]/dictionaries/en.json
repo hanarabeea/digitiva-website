@@ -233,6 +233,48 @@
             "value": "Next.js"
           }
         ]
+      },
+      {
+        "num": "05",
+        "name": "Verella",
+        "category": "Perfume E-Commerce",
+        "year": "2026",
+        "desc": "Bilingual online store for original perfume brands — cinematic collection showcases for women's and men's fragrances and gift boxes, with cart and customer accounts.",
+        "metrics": [
+          {
+            "label": "Store",
+            "value": "Online"
+          },
+          {
+            "label": "Languages",
+            "value": "AR / EN"
+          },
+          {
+            "label": "Stack",
+            "value": "Next.js"
+          }
+        ]
+      },
+      {
+        "num": "06",
+        "name": "Al-Barq",
+        "category": "Hospitality & B2B Supply",
+        "year": "2026",
+        "desc": "Supply partner platform for hotels, restaurants and hospitals across Hurghada and the Red Sea — full product catalogue, services and fast quote requests.",
+        "metrics": [
+          {
+            "label": "Products",
+            "value": "72+"
+          },
+          {
+            "label": "Delivery",
+            "value": "24–48h"
+          },
+          {
+            "label": "Stack",
+            "value": "Next.js"
+          }
+        ]
       }
     ]
   },
