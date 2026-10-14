@@ -228,7 +228,7 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
         {/* Category reveal */}
         <div className="overflow-hidden mb-3">
           <motion.p
-            initial={{ y: "110%" }}
+            initial={{ y: "100%" }}
             whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
@@ -241,7 +241,7 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
         {/* Title reveal */}
         <div className="overflow-hidden mb-5">
           <motion.h3
-            initial={{ y: "110%" }}
+            initial={{ y: "100%" }}
             whileInView={{ y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.85, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
