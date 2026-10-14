@@ -286,6 +286,12 @@
     "intro": "Ready-made systems designed and built by Digitiva, already running in real businesses. We install them, train your team and adapt them to the way you work.",
     "featuresTitle": "What it does",
     "cta": "Book a free demo",
+    "explore": "Explore the system",
+    "back": "Back to home",
+    "screensTitle": "Inside the system",
+    "nextSystem": "Next system",
+    "ctaTitle": "Want to see it running in your business?",
+    "ctaText": "We'll set up a free demo, walk your team through it and adapt it to the way you work.",
     "items": [
       {
         "name": "DigiFlow",

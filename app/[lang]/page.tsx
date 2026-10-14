@@ -37,7 +37,7 @@ export default async function Home({
         <Marquee dict={dict} />
         <About dict={dict} />
         <Work dict={dict} />
-        <Systems dict={dict} />
+        <Systems dict={dict} locale={locale} />
         <Process dict={dict} />
         <Disciplines dict={dict} />
         <Services dict={dict} />
