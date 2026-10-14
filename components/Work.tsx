@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, type CSSProperties } from "react";
 import {
   motion,
   useScroll,
@@ -62,7 +62,7 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
     <div
       ref={wrapRef}
       className={`grid md:grid-cols-12 gap-6 md:gap-16 items-center py-16 md:py-24 border-b border-app last:border-b-0 ${
-        reverse ? "md:[direction:rtl]" : ""
+        reverse ? "md:ltr:[direction:rtl] md:rtl:[direction:ltr]" : ""
       }`}
     >
       {/* ── Media column ── */}
@@ -207,7 +207,7 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
       {/* ── Text column ── */}
       <motion.div
         style={{ y: textY }}
-        className={`md:col-span-5 [direction:ltr] ${reverse ? "md:pr-2" : "md:pl-2"}`}
+        className={`md:col-span-5 ltr:[direction:ltr] rtl:[direction:rtl] ${reverse ? "md:pe-2" : "md:ps-2"}`}
       >
         {/* Index line */}
         <div className="flex items-center gap-3 mb-6">
@@ -219,8 +219,8 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="h-px flex-1 origin-left"
-            style={{ background: `linear-gradient(90deg, ${p.accent}, transparent)` }}
+            className="h-px flex-1 origin-left rtl:origin-right bg-[linear-gradient(90deg,var(--accent),transparent)] rtl:bg-[linear-gradient(270deg,var(--accent),transparent)]"
+            style={{ "--accent": p.accent } as CSSProperties}
           />
           <span className="text-app-dim text-[10px] tracking-[0.3em] uppercase font-space">{p.year}</span>
         </div>
@@ -275,8 +275,8 @@ function ProjectCard({ p, index, dict }: { p: Project; index: number; dict: Dict
               className="relative rounded-xl border border-app bg-app-card px-3 py-3 overflow-hidden hover:border-app-muted/30 transition-colors duration-300 group/metric"
             >
               <div
-                className="absolute inset-x-0 bottom-0 h-px scale-x-0 group-hover/metric:scale-x-100 transition-transform duration-500 origin-left"
-                style={{ background: `linear-gradient(90deg, ${p.accent}, transparent)` }}
+                className="absolute inset-x-0 bottom-0 h-px scale-x-0 group-hover/metric:scale-x-100 transition-transform duration-500 origin-left rtl:origin-right bg-[linear-gradient(90deg,var(--accent),transparent)] rtl:bg-[linear-gradient(270deg,var(--accent),transparent)]"
+                style={{ "--accent": p.accent } as CSSProperties}
               />
               <div className="font-space font-black text-sm md:text-base leading-none mb-1" style={{ color: p.accent }}>
                 {m.value}
