@@ -13,7 +13,8 @@
     "startProject": "Start a Project",
     "toggleTheme": "Toggle theme",
     "toggleMenu": "Toggle menu",
-    "language": "Language"
+    "language": "Language",
+    "systems": "Systems"
   },
   "hero": {
     "line1": "We Design",
@@ -273,6 +274,143 @@
           {
             "label": "Stack",
             "value": "Next.js"
+          }
+        ]
+      }
+    ]
+  },
+  "systems": {
+    "eyebrow": "Our Systems",
+    "heading1": "Software we",
+    "heading2": "build & run.",
+    "intro": "Ready-made systems designed and built by Digitiva, already running in real businesses. We install them, train your team and adapt them to the way you work.",
+    "explore": "Explore the system",
+    "close": "Close",
+    "prev": "Previous screen",
+    "next": "Next screen",
+    "featuresTitle": "What it does",
+    "screensTitle": "Inside the system",
+    "cta": "Book a free demo",
+    "items": [
+      {
+        "name": "DigiFlow",
+        "tagline": "Café & restaurant management",
+        "badge": "Live",
+        "desc": "One system for the whole café: the cashier, the waiters' phones, the kitchen screen, stock and accounts all work together in real time, on your own local network.",
+        "highlights": [
+          {
+            "value": "No app",
+            "label": "waiters use any phone"
+          },
+          {
+            "value": "Offline",
+            "label": "runs on your shop's network"
+          },
+          {
+            "value": "All-in-one",
+            "label": "POS, kitchen, stock & accounts"
+          }
+        ],
+        "features": [
+          "Fast POS with cash, wallet, InstaPay, card and split payments",
+          "Live table map with sections and reservations",
+          "Waiters take orders from their phones and send them to the kitchen",
+          "Kitchen display and per-station ticket printing",
+          "Delivery orders with driver tracking and settlement",
+          "Recipes that deduct raw materials from stock automatically",
+          "Shifts, cash drawer reports and full double-entry accounting",
+          "Sales reports by category, product and waiter",
+          "Fingerprint attendance with ZKTeco devices"
+        ],
+        "screens": [
+          {
+            "title": "Cashier POS",
+            "caption": "Fast checkout with menu categories, item photos and every payment method."
+          },
+          {
+            "title": "Table map",
+            "caption": "Every table at a glance: free, busy or reserved, across all sections."
+          },
+          {
+            "title": "Waiter ordering",
+            "caption": "Waiters build the check from their phone and send it straight to the kitchen."
+          },
+          {
+            "title": "Kitchen display",
+            "caption": "Orders land on the kitchen screen by station; one tap marks them ready."
+          },
+          {
+            "title": "Incoming orders",
+            "caption": "Tables, takeaway and delivery orders reach the cashier the moment they're placed."
+          },
+          {
+            "title": "Owner dashboard",
+            "caption": "Revenue, cash, supplier balances and stock value in one view."
+          },
+          {
+            "title": "Sales reports",
+            "caption": "Best sellers by category and product for any date range."
+          }
+        ]
+      },
+      {
+        "name": "DigiClinic",
+        "tagline": "Clinic management",
+        "badge": "Launching soon",
+        "desc": "Everything a clinic runs on, from the first phone booking to the printed prescription: reception, the doctor's desk, medical files, WhatsApp reminders and the daily cashbox.",
+        "highlights": [
+          {
+            "value": "25,000+",
+            "label": "Egyptian drugs built in"
+          },
+          {
+            "value": "WhatsApp",
+            "label": "reminders & prescriptions"
+          },
+          {
+            "value": "Voice",
+            "label": "dictate notes and prescriptions"
+          }
+        ],
+        "features": [
+          "Bookings by time slot or queue number, with a week calendar",
+          "Reception screen: arrivals, waiting list, vitals and payments",
+          "Doctor's desk with complaint, examination, diagnosis and plan",
+          "Complete medical file: history, allergies, attachments",
+          "Prescriptions from a 25,000+ Egyptian drug database, printed or sent",
+          "Voice dictation for notes and prescriptions",
+          "Automatic WhatsApp and email confirmations and reminders",
+          "Daily cashbox and monthly reports",
+          "Roles for owner, doctor and reception, with a full activity log"
+        ],
+        "screens": [
+          {
+            "title": "Reception",
+            "caption": "Today's queue live: who arrived, who's waiting, who's inside and who paid."
+          },
+          {
+            "title": "Doctor's desk",
+            "caption": "Complaint, examination, diagnosis and plan, with smart suggestions and vitals on top."
+          },
+          {
+            "title": "Prescriptions",
+            "caption": "Pick from 25,000+ Egyptian drugs, add the dose and print or send it."
+          },
+          {
+            "title": "Appointments",
+            "caption": "A week view of every booking, by time slot or queue number."
+          },
+          {
+            "title": "Clinic overview",
+            "caption": "Today's numbers, messages to follow up and this month's revenue."
+          },
+          {
+            "title": "Medical file",
+            "caption": "Every past visit, diagnosis and prescription in one place."
+          },
+          {
+            "title": "Fast booking",
+            "caption": "Choose the patient and the next free slot; prices and follow-ups are handled for you."
           }
         ]
       }

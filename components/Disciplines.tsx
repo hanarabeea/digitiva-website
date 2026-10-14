@@ -46,7 +46,7 @@ export default function Disciplines({ dict }: { dict: Dictionary }) {
         <header className="expertise-head max-w-[1400px] mx-auto px-6 md:px-14 pt-24 md:pt-32">
           <p className="expertise-eyebrow">
             <span className="eyebrow-bar" aria-hidden="true" />
-            <span className="eyebrow-tag">[04]</span>{dict.disciplines.eyebrow}
+            <span className="eyebrow-tag">[05]</span>{dict.disciplines.eyebrow}
           </p>
           <h2 className="expertise-title">
             {dict.disciplines.headingPre}{" "}

@@ -111,7 +111,7 @@ export default function Services({ dict }: { dict: Dictionary }) {
         <header className="works-head mb-14 md:mb-20">
           <p className="works-eyebrow">
             <span className="eyebrow-bar" aria-hidden="true" />
-            <span className="eyebrow-tag">[05]</span>{dict.services.eyebrow}
+            <span className="eyebrow-tag">[06]</span>{dict.services.eyebrow}
           </p>
           <div className="overflow-hidden">
             <motion.h2

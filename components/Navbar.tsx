@@ -22,6 +22,7 @@ export default function Navbar({
 
   const links = [
     { label: dict.nav.work, href: "#work" },
+    { label: dict.nav.systems, href: "#systems" },
     { label: dict.nav.services, href: "#services" },
     { label: dict.nav.invitations, href: "#invitations" },
     { label: dict.nav.contact, href: "#contact" },

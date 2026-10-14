@@ -25,7 +25,7 @@ export default function Process({ dict }: { dict: Dictionary }) {
             className="expertise-eyebrow mb-4"
           >
             <span className="eyebrow-bar" aria-hidden="true" />
-            <span className="eyebrow-tag">[03]</span>{dict.process.eyebrow}
+            <span className="eyebrow-tag">[04]</span>{dict.process.eyebrow}
           </motion.p>
           <div className="overflow-hidden">
             <motion.h2
